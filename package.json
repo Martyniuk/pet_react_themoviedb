@@ -49,7 +49,8 @@
   "scripts": {
     "start-js": "node scripts/start.js",
     "start": "npm run start-js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "setup": "sh scripts/init.sh"
   },
   "devDependencies": {
     "babel-preset-stage-0": "^6.24.1",
