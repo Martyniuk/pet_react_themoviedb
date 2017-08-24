@@ -2,11 +2,16 @@
 
 .app {
     display: flex;
+    flex-direction: column;
     width: 100vw;
     height: 100vh;
     background-color: $paletteColor3;
 
     h1 {
+        font-size: 50px;
+    }
+
+    h1, p {
         margin: auto;
         color: $paletteColor4;
     }
