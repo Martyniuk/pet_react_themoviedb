@@ -8,7 +8,7 @@ export default class App extends Component {
             <section className = { Styles.app }>
                 <h1>Welcome!</h1>
                 <p>
-                    It is {getCurrentTime()}
+                    It is {getCurrentTime()}.
                 </p>
             </section>
         );
