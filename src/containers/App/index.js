@@ -6,7 +6,9 @@ import Styles from './styles.scss';
 import { getCurrentTime } from '../../helpers';
 
 export default class App extends Component {
+
     timer = setInterval(() => this.forceUpdate(), 1000);
+
     render () {
         const currentTime = getCurrentTime();
 
