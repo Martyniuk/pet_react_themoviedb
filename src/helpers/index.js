@@ -15,7 +15,7 @@ export const getUniqueID = (length) => {
     return text;
 };
 
-export function getRandomColor () {
+export const getRandomColor = () => {
     const letters = '0123456789ABCDEF';
     let color = '#';
 
@@ -24,4 +24,4 @@ export function getRandomColor () {
     }
 
     return color;
-}
+};
