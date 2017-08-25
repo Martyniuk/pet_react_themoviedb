@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+section {
+    box-sizing: border-box;
+}
+
 /* Document
    ========================================================================== */
 
