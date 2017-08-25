@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export const getCurrentTime = () => moment().format('MMMM D h:mm:ss a');
 
-export const generateHash = (length) => {
+export const getUniqueID = (length) => {
     let text = '';
     const possible =
         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
