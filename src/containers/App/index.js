@@ -10,13 +10,11 @@ export default class App extends Component {
     timer = setInterval(() => this.forceUpdate(), 1000);
 
     render () {
-        const currentTime = getCurrentTime();
-
         return (
             <section className = { Styles.app }>
                 <h1>Welcome!</h1>
                 <p>
-                    It is {currentTime}.
+                    It is {getCurrentTime()}.
                 </p>
             </section>
         );
