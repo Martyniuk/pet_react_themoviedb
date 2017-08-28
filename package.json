@@ -1,6 +1,7 @@
 {
   "name": "Lectrum",
   "version": "0.1.0",
+  "homepage" : "http://myname.github.io/",
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.2",
@@ -51,7 +52,8 @@
     "start-js": "node scripts/start.js",
     "start": "npm run start-js",
     "test": "node scripts/test.js --env=jsdom",
-    "setup": "sh scripts/setup.sh"
+    "setup": "sh scripts/setup.sh",
+    "build": "node scripts/build.js"
   },
   "devDependencies": {
     "babel-preset-stage-0": "^6.24.1",
