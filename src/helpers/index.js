@@ -1,8 +1,3 @@
-// Core
-import moment from 'moment';
-
-export const getCurrentTime = () => moment().format('MMMM D h:mm:ss a');
-
 export const getUniqueID = (length) => {
     let text = '';
     const possible =

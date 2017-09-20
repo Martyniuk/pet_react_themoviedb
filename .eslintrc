@@ -9,10 +9,6 @@ settings:
 parserOptions:
     sourceType: "module"
 
-extends:
-  - plugin:import/errors
-  - plugin:import/warnings
-
 plugins:
   - react
 
@@ -23,7 +19,7 @@ env:
 
 rules:
   no-cond-assign: 1
-  no-console: 1
+  no-console: 0
   no-constant-condition: 1
   no-control-regex: 1
   no-debugger: 1
@@ -221,7 +217,7 @@ rules:
   yield-star-spacing: [1, "both"]
   react/forbid-component-props: [1, { "forbid": ["style"] }]
   react/forbid-prop-types: 0
-  react/no-array-index-key: 1
+  react/no-array-index-key: 0
   react/no-children-prop: 1
   react/no-danger: 1
   react/no-danger-with-children: 1
