@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 // Instruments
 import Styles from './styles.scss';
-import { getCurrentTime } from '../../helpers';
+import moment from 'moment';
 
 export default class App extends Component {
 
@@ -14,7 +14,7 @@ export default class App extends Component {
             <section className = { Styles.app }>
                 <h1>Welcome!</h1>
                 <p>
-                    It is {getCurrentTime()}.
+                    It is {moment().format('MMMM D h:mm:ss a')}.
                 </p>
             </section>
         );
