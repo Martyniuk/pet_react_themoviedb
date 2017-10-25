@@ -10,7 +10,7 @@ import { options } from '../../containers/App';
 Enzyme.configure({ adapter: new Adapter() });
 
 const message = 'how you doing?';
-const { apiForSearch, apiForImage } = options;
+const { apiToGetMoviesBySearch, apiToGetImageForMovie } = options;
 const state = {
     textInputValue: '',
     data: {
@@ -26,8 +26,8 @@ const mutatedState = {
 
 const result = shallow(<SearchBar />, {
     context: {
-        apiForSearch,
-        apiForImage
+        apiForSearch: apiToGetMoviesBySearch,
+        apiForImage: apiToGetImageForMovie
     }
 });
 

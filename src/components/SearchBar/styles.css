@@ -1,0 +1,11 @@
+.searchBar {
+  display: flex;
+  justify-content: center; }
+  .searchBar form {
+    margin-top: 50px; }
+  .searchBar input[type=text] {
+    min-width: 300px; }
+  .searchBar input[type=submit] {
+    margin-left: 20px; }
+
+/*# sourceMappingURL=styles.css.map */
