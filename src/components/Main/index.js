@@ -16,12 +16,6 @@ export default class Body extends Component {
                 <div>
                     <SearchBar />
                 </div>
-                <div>
-                    {/*<Content
-                            latestMoviesList = { moviesListRecentlyReleased }
-                            mostPopularMoviesList = { moviesListGotByPopularity }
-                        />*/}
-                </div>
             </section>
         );
     }

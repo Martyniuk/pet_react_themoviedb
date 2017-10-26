@@ -31,7 +31,7 @@ export default class SearchBar extends Component {
         moviesListRecentlyReleased: []
     };
 
-    componentWillMount () {
+    componentDidMount () {
         this.getMostPopularMovies();
         this.getNewestMovies();
     }
@@ -41,7 +41,7 @@ export default class SearchBar extends Component {
         const { textInputValue } = this.state;
 
         if (!textInputValue.trim()) {
-            console.log(`----> _getMoviesBySearch, ${textInputValue} is empty.`);
+            throw new Error(`----> _getMoviesBySearch, ${textInputValue} is empty.`);
         }
 
         const url = `${this.context.apiToGetMoviesBySearch}&query=${textInputValue}`;
@@ -79,7 +79,7 @@ export default class SearchBar extends Component {
                 this.setState(() => ({ moviesListGotByPopularity: results }));
                 console.log(`result of fetch most popular ---> ${this.state.moviesListGotByPopularity}`);
             })
-            .catch((error) => console.error(`Getting of Most Popular movies processed with an Error --> ${error.message}`));
+            .catch(({ message }) => console.error(`Getting of Most Popular movies processed with an Error --> ${message}`));
     }
 
     _getNewestMovies () {
@@ -98,7 +98,7 @@ export default class SearchBar extends Component {
                 this.setState(() => ({ moviesListRecentlyReleased: results }));
                 console.log(`result of fetch newest movies ---> ${this.state.moviesListRecentlyReleased}`); //not empty --> 20
             })
-            .catch((error) => console.error(`Getting of Newest Movies processed with an Error --> ${error.message}`));
+            .catch(({ message }) => console.error(`Getting of Newest Movies processed with an Error --> ${message}`));
     }
 
     _handleTextInputChange (event) {
@@ -133,8 +133,7 @@ export default class SearchBar extends Component {
             moviesListRecentlyReleased
         } = this.state;
 
-        console.log(`moviesListGotByPopularity in Body --> ${moviesListGotByPopularity} `);
-        console.log(`moviesListRecentlyReleased in Body --> ${moviesListRecentlyReleased} `);
+        console.log(`render in SearchBar -- > movies got by search --> ${moviesGotBySearch}`);
 
         return (
             <section className = { Styles.searchBar }>
@@ -151,7 +150,7 @@ export default class SearchBar extends Component {
                 <Content
                     latestMoviesList = { moviesListRecentlyReleased }
                     mostPopularMoviesList = { moviesListGotByPopularity }
-                    moviesListGetBySearch = { moviesGotBySearch }
+                    moviesListGotBySearch = { moviesGotBySearch }
                 />
                 {/* Transition */}
             </section>

@@ -1,0 +1,48 @@
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .modal .modal_content {
+    background-color: #f4f4f4;
+    margin: 20% auto;
+    padding: 20px;
+    width: 70%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2); }
+  .modal .cross {
+    content: '';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 10px;
+    height: 10px;
+    background-image: url("../../theme/assets/cross.png");
+    background-repeat: no-repeat;
+    cursor: pointer; }
+    .modal .cross:hover {
+      background-color: -13px 0; }
+  .modal .modal:before {
+    content: '';
+    position: fixed;
+    background-color: transparent;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%; }
+  .modal .modal_container {
+    position: fixed;
+    background-color: #fff;
+    width: 70%;
+    max-width: 400px;
+    left: 50%;
+    padding: 20px;
+    border-radius: 5px;
+    -webkit-transform: translate(-50%, -200%);
+    -ms-transform: translate(-50%, -200%);
+    transform: translate(-50%, -200%); }
+
+/*# sourceMappingURL=styles.css.map */

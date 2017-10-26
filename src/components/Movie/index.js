@@ -4,9 +4,10 @@ import React, { Component } from 'react';
 //instruments
 import PropTypes from 'prop-types';
 import Styles from './styles.scss';
+import image from '../../theme/assets/404.jpg';
 
 //Components
-import WishList from '../WishList';
+import ModalWindow from '../ModalWindow';
 
 export default class Movie extends Component {
     static propTypes = {
@@ -30,61 +31,80 @@ export default class Movie extends Component {
     constructor () {
         super();
         this.imagePathCreation = ::this._imagePathCreation;
-        this.handleDeletionFromWishList = ::this._handleDeletionFromWishList;
-        this.handleAdditionToWishList = ::this._handleAdditionToWishList;
+        this.triggerModalWindow = ::this._triggerModalWindow;
+        this.closeModalWindow = ::this._closeModalWindow;
     }
 
     state = {
-        includedToWishList: false
+        isModalWindowTriggered: false
     };
 
     _imagePathCreation () {
         const { apiToGetImageForMovie } = this.context;
 
-        let { poster_path } = this.props;
+        const { poster_path } = this.props;
 
-        const file_size = 'w500';
+        const file_size = 'w300';
 
         if (!poster_path) {
-            poster_path = '';
-            console.log(`poster_path is missing ---> ${poster_path}`);
+            console.log(`poster_path is missing =( ---> ${poster_path}`);
+
+            return image;
+
         }
 
         return `${apiToGetImageForMovie}/${file_size}/${poster_path}`;
     }
-
-    _handleDeletionFromWishList () {
-        this.setState(() => ({ includedToWishList: false }));
+    _triggerModalWindow () {
+        this.setState(() => ({ isModalWindowTriggered: true }));
     }
-
-    _handleAdditionToWishList () {
-        this.setState(() => ({ includedToWishList: true }));
+    _closeModalWindow () {
+        this.setState(() => ({ isModalWindowTriggered: false }));
     }
 
     render () {
-        const { title } = this.props;
-
-        //const { includedToWishList } = this.state;
-
+        const {
+            adult,
+            id,
+            overview,
+            popularity,
+            release_date,
+            title,
+            vote_average,
+            backdrop_path,
+            poster_path
+        } = this.props;
         const imagePath = this.imagePathCreation();
+        const { isModalWindowTriggered } = this.state;
 
-        /*const inWishList = includedToWishList
-            ? <span className = { Styles.inWishList } onClick = { this.handleDeletionFromWishList } />
-            : <span className = { Styles.notInWishList } onClick = { this.handleAdditionToWishList } />;*/
+        const modalWindowToShow = isModalWindowTriggered
+            ? <ModalWindow
+                adult = { adult }
+                backdrop_path = { backdrop_path }
+                closeModalWindow = { this.closeModalWindow }
+                id = { id }
+                imagePath = { imagePath }
+                key = { id }
+                overview = { overview }
+                popularity = { popularity }
+                poster_path = { poster_path }
+                release_date = { release_date }
+                title = { title }
+                vote_average = { vote_average }
+            />
+            : null;
 
         return (
-            <section className = { Styles.movie }>
+            <section className = { Styles.movie } onClick = { this.triggerModalWindow }>
+                { modalWindowToShow }
                 <a href = '#' >
                     <img alt = 'image' className = { Styles.img } src = { imagePath } />
                 </a>
                 <div>
-
-                    {/*{ inWishList }*/}
                     <a href = '#' >
                         <p> { title } </p>
                     </a>
                 </div>
-
             </section>
         );
     }

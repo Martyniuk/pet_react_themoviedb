@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 // Instruments
-import PropTypes from 'prop-types';
+import { array } from 'prop-types';
 import Styles from './styles.scss';
 
 // Components
@@ -11,9 +11,9 @@ import Movie from '../Movie';
 
 export default class Content extends Component {
     static propTypes = {
-        latestMoviesList:      PropTypes.array,
-        mostPopularMoviesList: PropTypes.array,
-        moviesListGotBySearch: PropTypes.array
+        latestMoviesList:      array.isRequired,
+        mostPopularMoviesList: array.isRequired,
+        moviesListGotBySearch: array
     };
     static defaultProps = {
         moviesListGotBySearch: [],
@@ -27,6 +27,8 @@ export default class Content extends Component {
             mostPopularMoviesList,
             latestMoviesList
         } = this.props;
+
+        console.log(`render in Content -- > movies got by search --> ${moviesListGotBySearch}`);
 
         const moviesListGotBySearchToRender = moviesListGotBySearch.map(
             (movie) => {
@@ -78,6 +80,7 @@ export default class Content extends Component {
                 } = movie;
 
                 return (
+
                     /*CCSTransition*/
                     <Movie
                         adult = { adult }
@@ -91,6 +94,7 @@ export default class Content extends Component {
                         title = { title }
                         vote_average = { vote_average }
                     />
+
                     /*CCSTransition*/
                 );
             }
