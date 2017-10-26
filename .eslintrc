@@ -131,7 +131,7 @@ rules:
   array-bracket-spacing: 1
   block-spacing: 1
   brace-style: 1
-  camelcase: 1
+  camelcase: 0
   capitalized-comments: 0
   comma-dangle: 1
   comma-spacing: 1

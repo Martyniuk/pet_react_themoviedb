@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 // Instruments
 import PropTypes from 'prop-types';
+import Styles from './styles.scss';
 
 // Components
 import Movie from '../Movie';
@@ -10,25 +11,24 @@ import Movie from '../Movie';
 
 export default class Content extends Component {
     static propTypes = {
-        latestMoviesList: PropTypes.array.isRequired,
-        mostPopularMoviesList: PropTypes.array.isRequired,
-        moviesListGetBySearch: PropTypes.array.isRequired
+        latestMoviesList:      PropTypes.array,
+        mostPopularMoviesList: PropTypes.array,
+        moviesListGotBySearch: PropTypes.array
     };
-
-    constructor () {
-        super();
-
-    }
-
+    static defaultProps = {
+        moviesListGotBySearch: [],
+        mostPopularMoviesList: [],
+        latestMoviesList:      []
+    };
 
     render () {
         const {
-            moviesListGetBySearch,
+            moviesListGotBySearch,
             mostPopularMoviesList,
             latestMoviesList
         } = this.props;
 
-        const moviesListGetBySearchToRender = moviesListGetBySearch.map(
+        const moviesListGotBySearchToRender = moviesListGotBySearch.map(
             (movie) => {
                 const {
                     id,
@@ -43,19 +43,21 @@ export default class Content extends Component {
                 } = movie;
 
                 return (
+
                     /*CCSTransition*/
                     <Movie
-                        key = { id }
                         adult = { adult }
+                        backdrop_path = { backdrop_path }
                         id = { id }
-                        vote_average = { vote_average }
-                        title = { title }
+                        key = { id }
+                        overview = { overview }
                         popularity = { popularity }
                         poster_path = { poster_path }
-                        backdrop_path = { backdrop_path }
-                        overview = { overview }
                         release_date = { release_date }
+                        title = { title }
+                        vote_average = { vote_average }
                     />
+
                     /*CCSTransition*/
                 );
             }
@@ -78,21 +80,22 @@ export default class Content extends Component {
                 return (
                     /*CCSTransition*/
                     <Movie
-                        key = { id }
                         adult = { adult }
+                        backdrop_path = { backdrop_path }
                         id = { id }
-                        vote_average = { vote_average }
-                        title = { title }
+                        key = { id }
+                        overview = { overview }
                         popularity = { popularity }
                         poster_path = { poster_path }
-                        backdrop_path = { backdrop_path }
-                        overview = { overview }
                         release_date = { release_date }
+                        title = { title }
+                        vote_average = { vote_average }
                     />
                     /*CCSTransition*/
                 );
             }
         );
+
         const latestMoviesListToRender = latestMoviesList.map(
             (movie) => {
                 const {
@@ -108,33 +111,40 @@ export default class Content extends Component {
                 } = movie;
 
                 return (
+
                     /*CCSTransition*/
                     <Movie
-                        key = { id }
                         adult = { adult }
+                        backdrop_path = { backdrop_path }
                         id = { id }
-                        vote_average = { vote_average }
-                        title = { title }
+                        key = { id }
+                        overview = { overview }
                         popularity = { popularity }
                         poster_path = { poster_path }
-                        backdrop_path = { backdrop_path }
-                        overview = { overview }
                         release_date = { release_date }
+                        title = { title }
+                        vote_average = { vote_average }
                     />
+
                     /*CCSTransition*/
                 );
             }
         );
-        return(
-            <section>
-                <h3>Content of Movies</h3>
-                {/* Transition Group */}
-                { moviesListGetBySearchToRender }
-                {/*TransitionGroup*/}
-                <h4>The most popular </h4>
-                { popularMoviesListToRender }
-                <h5>Latest Arrived</h5>
-                { latestMoviesListToRender }
+
+        return (
+            <section className = { Styles.content }>
+                <h3 className = { Styles.title }>Content of Movies</h3>
+                <div className = { Styles.content_list }>
+                    { moviesListGotBySearchToRender }
+                </div>
+                <h4 className = { Styles.title }>The most popular </h4>
+                <div className = { Styles.content_list }>
+                    { popularMoviesListToRender }
+                </div>
+                <h5 className = { Styles.title }>Latest Arrived</h5>
+                <div className = { Styles.content_list }>
+                    { latestMoviesListToRender }
+                </div>
             </section>
         );
     }

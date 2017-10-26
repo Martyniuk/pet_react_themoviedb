@@ -1,17 +1,40 @@
 .movie {
+  position: relative;
+  width: calc(90%/4);
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 5px 5px 25px 0px rgba(46, 61, 73, 0.2);
+  padding: 4px;
+  margin: 4px;
+  transform-style: preserve-3d;
+  transition: all 1s ease-out; }
+  .movie .title {
+    font-size: 15px;
+    font-style: italic;
+    font-weight: 700;
+    text-align: center; }
+  .movie .img {
+    width: 100%; }
+
+/*
+.movie {
+
   display: flex;
   position: relative;
   flex-direction: row;
   width: 50px;
   margin-top: 10px;
-  padding: 12px; }
-  .movie .inWishList {
+  padding: 12px;
+
+  .inWishList {
     content: '-';
     position: absolute;
     cursor: pointer;
     border: 1px solid firebrick;
-    border-radius: 60px; }
-  .movie .notInWishList {
+    border-radius: 60px;
+  }
+
+  .notInWishList {
     content: '+';
     position: absolute;
     top: 12px;
@@ -20,6 +43,9 @@
     height: 10px;
     cursor: pointer;
     border: 1px solid darkseagreen;
-    border-radius: 60px; }
+    border-radius: 60px;
+  }
+}
+*/
 
 /*# sourceMappingURL=styles.css.map */

@@ -10,21 +10,21 @@ import WishList from '../WishList';
 
 export default class Movie extends Component {
     static propTypes = {
-        adult: PropTypes.bool.isRequired,
-        id: PropTypes.number.isRequired,
-        vote_average: PropTypes.number.isRequired,
-        title: PropTypes.string.isRequired,
-        popularity: PropTypes.number.isRequired,
-        poster_path: PropTypes.string,
+        adult:         PropTypes.bool.isRequired,
+        id:            PropTypes.number.isRequired,
+        overview:      PropTypes.string.isRequired,
+        popularity:    PropTypes.number.isRequired,
+        release_date:  PropTypes.string.isRequired,
+        title:         PropTypes.string.isRequired,
+        vote_average:  PropTypes.number.isRequired,
         backdrop_path: PropTypes.string,
-        overview: PropTypes.string.isRequired,
-        release_date: PropTypes.string.isRequired
+        poster_path:   PropTypes.string
     };
     static defaultProps = {
         wishListTrigger: false
     };
     static contextTypes = {
-        apiForImage: PropTypes.string.isRequired
+        apiToGetImageForMovie: PropTypes.string.isRequired
     };
 
     constructor () {
@@ -39,14 +39,18 @@ export default class Movie extends Component {
     };
 
     _imagePathCreation () {
-        const { apiForImage } = this.context;
+        const { apiToGetImageForMovie } = this.context;
+
         let { poster_path } = this.props;
+
         const file_size = 'w500';
+
         if (!poster_path) {
             poster_path = '';
-            console.log(`poster_path is missing ---> ${ poster_path }`);
+            console.log(`poster_path is missing ---> ${poster_path}`);
         }
-        return `${apiForImage}/${file_size}/${poster_path}`;
+
+        return `${apiToGetImageForMovie}/${file_size}/${poster_path}`;
     }
 
     _handleDeletionFromWishList () {
@@ -60,7 +64,7 @@ export default class Movie extends Component {
     render () {
         const { title } = this.props;
 
-        const { includedToWishList } = this.state;
+        //const { includedToWishList } = this.state;
 
         const imagePath = this.imagePathCreation();
 
@@ -71,7 +75,7 @@ export default class Movie extends Component {
         return (
             <section className = { Styles.movie }>
                 <a href = '#' >
-                    <img alt = 'image' src = { imagePath } />
+                    <img alt = 'image' className = { Styles.img } src = { imagePath } />
                 </a>
                 <div>
 

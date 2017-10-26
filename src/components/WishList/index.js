@@ -9,4 +9,5 @@ export default class WishList extends Component {
     //create input button for deletion a movie from WishList
     //use Transition in order to implement animation
 
+// add method that will be thrown to Movie
 }

@@ -2,36 +2,46 @@
 import React, { Component } from 'react';
 
 // Instruments
-import PropTypes from 'prop-types';
+import { string } from 'prop-types';
 import Styles from './styles.scss';
 
 // Components
-import Content from "../Content";
+import Content from '../Content';
 
 export default class SearchBar extends Component {
-
     static contextTypes = {
-        apiToGetMoviesBySearch: PropTypes.string.isRequired
+        apiToGetMoviesBySearch:    string.isRequired,
+        apiToGetMostPopularMovies: string.isRequired,
+        apiToGetTheNewestMovies:   string.isRequired
     };
     constructor () {
         super();
 
-        this.handleSubmit = this._handleSubmit.bind(this);
-        this.handleTextInputChange = this._handleTextInputChange.bind(this);
-        this.getMoviesBySearch = this._getMoviesBySearch.bind(this);
+        this.handleSubmit = ::this._handleSubmit;
+        this.handleTextInputChange = ::this._handleTextInputChange;
+        this.getMoviesBySearch = ::this._getMoviesBySearch;
+        this.getMostPopularMovies = ::this._getMostPopularMovies;
+        this.getNewestMovies = ::this._getNewestMovies;
     }
 
     state = {
-        textInputValue: '',
-        results: []
+        textInputValue:             '',
+        moviesGotBySearch:          [],
+        moviesListGotByPopularity:  [],
+        moviesListRecentlyReleased: []
     };
+
+    componentWillMount () {
+        this.getMostPopularMovies();
+        this.getNewestMovies();
+    }
 
     // try to move below to helpers folder
     _getMoviesBySearch () {
         const { textInputValue } = this.state;
 
         if (!textInputValue.trim()) {
-            console.log(`----> _getMovies, ${textInputValue} is empty.`);
+            console.log(`----> _getMoviesBySearch, ${textInputValue} is empty.`);
         }
 
         const url = `${this.context.apiToGetMoviesBySearch}&query=${textInputValue}`;
@@ -46,11 +56,49 @@ export default class SearchBar extends Component {
             })
             .then(({ results }) => {
                 this.setState(() => ({
-                    results
+                    moviesGotBySearch: results
                 }));
                 console.log(`results of fetch by search ---> ${results.length}`);
             })
-            .catch((error) => console.error('dude, some shit is happening...call your Roof'));
+            .catch(({ message }) => console.error(`dude, some shit is happening...call your Roof --> ${message}`));
+    }
+
+    _getMostPopularMovies () {
+
+        const url = `${this.context.apiToGetMostPopularMovies}`;
+
+        fetch(url, { method: 'GET' })
+            .then((response) => {
+                if (response.status !== 200) {
+                    throw new Error(`Status of request for getting The most popular Movies is  --> ${response.status}`);
+                }
+
+                return response.json();
+            })
+            .then(({ results }) => {
+                this.setState(() => ({ moviesListGotByPopularity: results }));
+                console.log(`result of fetch most popular ---> ${this.state.moviesListGotByPopularity}`);
+            })
+            .catch((error) => console.error(`Getting of Most Popular movies processed with an Error --> ${error.message}`));
+    }
+
+    _getNewestMovies () {
+
+        const url = `${this.context.apiToGetTheNewestMovies}`;
+
+        fetch(url, { method: `GET` })
+            .then((response) => {
+                if (response.status !== 200) {
+                    throw new Error(`Status of request for getting Newest Movies is --> ${response.status}`);
+                }
+
+                return response.json();
+            })
+            .then(({ results }) => {
+                this.setState(() => ({ moviesListRecentlyReleased: results }));
+                console.log(`result of fetch newest movies ---> ${this.state.moviesListRecentlyReleased}`); //not empty --> 20
+            })
+            .catch((error) => console.error(`Getting of Newest Movies processed with an Error --> ${error.message}`));
     }
 
     _handleTextInputChange (event) {
@@ -62,11 +110,9 @@ export default class SearchBar extends Component {
 
     _handleSubmit (event) {
         event.preventDefault();
-        // console.log(`---> handle submit triggered `);
 
         const { textInputValue } = this.state;
 
-        // console.log(this.state.textInputValue);
         if (!textInputValue.trim()) {
             // error pop up can be implemented with Transition
             return;
@@ -80,7 +126,15 @@ export default class SearchBar extends Component {
     render () {
         const placeholderValue = 'Search...';
 
-        const { textInputValue, results } = this.state;
+        const {
+            textInputValue,
+            moviesGotBySearch,
+            moviesListGotByPopularity,
+            moviesListRecentlyReleased
+        } = this.state;
+
+        console.log(`moviesListGotByPopularity in Body --> ${moviesListGotByPopularity} `);
+        console.log(`moviesListRecentlyReleased in Body --> ${moviesListRecentlyReleased} `);
 
         return (
             <section className = { Styles.searchBar }>
@@ -94,7 +148,11 @@ export default class SearchBar extends Component {
                     <input type = 'submit' value = 'Search' />
                 </form>
                 {/* Transition */}
-                <Content moviesListGetBySearch = { results } />
+                <Content
+                    latestMoviesList = { moviesListRecentlyReleased }
+                    mostPopularMoviesList = { moviesListGotByPopularity }
+                    moviesListGetBySearch = { moviesGotBySearch }
+                />
                 {/* Transition */}
             </section>
         );
