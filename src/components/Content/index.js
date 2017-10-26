@@ -28,8 +28,6 @@ export default class Content extends Component {
             latestMoviesList
         } = this.props;
 
-        console.log(`render in Content -- > movies got by search --> ${moviesListGotBySearch}`);
-
         const moviesListGotBySearchToRender = moviesListGotBySearch.map(
             (movie) => {
                 const {
@@ -64,6 +62,15 @@ export default class Content extends Component {
                 );
             }
         );
+
+        const advert = moviesListGotBySearch.length === 0
+            ? <h3 className = { Styles.title } >Oi, Your Advert can be Here!!</h3>
+            : <div className = { Styles.content }>
+                <h3 className = { Styles.title }>Content of Movies</h3>
+                <span className = { Styles.content_list }>{ moviesListGotBySearchToRender }</span>
+            </div>;
+
+        //console.log(`render in Content -- > movies got by search --> ${moviesListGotBySearch}`);
 
         const popularMoviesListToRender = mostPopularMoviesList.map(
             (movie) => {
@@ -137,11 +144,8 @@ export default class Content extends Component {
 
         return (
             <section className = { Styles.content }>
-                <h3 className = { Styles.title }>Content of Movies</h3>
-                <div className = { Styles.content_list }>
-                    { moviesListGotBySearchToRender }
-                </div>
-                <h4 className = { Styles.title }>The most popular </h4>
+                { advert }
+                <h4 className = { Styles.title }>The Most Popular</h4>
                 <div className = { Styles.content_list }>
                     { popularMoviesListToRender }
                 </div>

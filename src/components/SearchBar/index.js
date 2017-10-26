@@ -146,13 +146,11 @@ export default class SearchBar extends Component {
                     />
                     <input type = 'submit' value = 'Search' />
                 </form>
-                {/* Transition */}
                 <Content
                     latestMoviesList = { moviesListRecentlyReleased }
                     mostPopularMoviesList = { moviesListGotByPopularity }
                     moviesListGotBySearch = { moviesGotBySearch }
                 />
-                {/* Transition */}
             </section>
         );
     }
