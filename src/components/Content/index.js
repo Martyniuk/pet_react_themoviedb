@@ -53,13 +53,16 @@ export default class Content extends Component {
             vote_average: movieComponent.vote_average,
             imagePath:    imagePath
         };
-        console.log(`movie information is Got ==> ${JSON.stringify(movieObj)}`);
+        console.log(`Content: 56L ||||| this method is invoked to Movie Component in order to get his info by Clicking |||| movie information is Got ==> ${JSON.stringify(movieObj).substring(0, 15)}`);
 
         return this.modalWindowBuilder(movieObj);
     }
 
     _modalWindowBuilder (movieInfo) {
-        console.log(`modal window Building is in progress ==> ${JSON.stringify(movieInfo)}`);
+        console.log(`Content: 62L ||||| this method is Building ModalWindow from info got from Movie Component |||| modal window Building is in progress ==> ${JSON.stringify(movieInfo).substring(0, 15)}`);
+
+
+        console.log(`Content: 89L <-- condition and 197L <-- place where modal has to appear |||| i cant change state of Content in order to Trigger Modal window or it is just vyebuetsa...`);
 
         return (
             <ModalWindow
