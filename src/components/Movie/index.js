@@ -12,7 +12,7 @@ import ModalWindow from '../ModalWindow';
 export default class Movie extends Component {
     static propTypes = {
         adult:         PropTypes.bool.isRequired,
-        getMovieById:  PropTypes.func.isRequired,
+        getMovieInfo:  PropTypes.func.isRequired,
         id:            PropTypes.number.isRequired,
         overview:      PropTypes.string.isRequired,
         popularity:    PropTypes.number.isRequired,
@@ -32,7 +32,7 @@ export default class Movie extends Component {
     constructor () {
         super();
         this.imagePathCreation = ::this._imagePathCreation;
-        this.handleGettingMovieId = ::this._handleGettingMovieId;
+        this.handleGettingMovieInfo = ::this._handleGettingMovieInfo;
     }
 
     _imagePathCreation () {
@@ -52,12 +52,12 @@ export default class Movie extends Component {
         return `${apiToGetImageForMovie}/${file_size}/${poster_path}`;
     }
 
-    _handleGettingMovieId (e) {
+    _handleGettingMovieInfo (e) {
         e.preventDefault();
+        const { getMovieInfo } = this.props;
+        const imagePath = this.imagePathCreation();
 
-        const { getMovieById, id } = this.props;
-
-        getMovieById(id);
+        getMovieInfo(this.props, imagePath);
     }
 
     render () {
@@ -65,7 +65,7 @@ export default class Movie extends Component {
         const imagePath = this.imagePathCreation();
 
         return (
-            <section className = { Styles.movie } onClick = { this.handleGettingMovieId }>
+            <section className = { Styles.movie } onClick = { this.handleGettingMovieInfo }>
                 <a href = '#' >
                     <img alt = 'image' className = { Styles.img } src = { imagePath } />
                 </a>

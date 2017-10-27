@@ -18,8 +18,7 @@ export default class ModalWindow extends Component {
         popularity:       PropTypes.number.isRequired,
         release_date:     PropTypes.string.isRequired,
         title:            PropTypes.string.isRequired,
-        vote_average:     PropTypes.number.isRequired,
-        adult:            PropTypes.bool
+        vote_average:     PropTypes.number.isRequired
     };
 
     constructor () {
@@ -44,6 +43,7 @@ export default class ModalWindow extends Component {
     _handleClosingOfModalWindow () {
 
         const { closeModalWindow } = this.props;
+
         closeModalWindow();
     }
 

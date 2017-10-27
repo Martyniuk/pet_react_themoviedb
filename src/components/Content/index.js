@@ -27,56 +27,56 @@ export default class Content extends Component {
 
         this.triggerModalWindow = ::this._triggerModalWindow;
         this.closeModalWindow = ::this._closeModalWindow;
+        this.getMovieInfo = ::this._getMovieInfo;
         this.modalWindowBuilder = ::this._modalWindowBuilder;
-        this.getMovieById = ::this._getMovieById;
     }
 
     state = {
-        isModalWindowTriggered: false,
-        modal:                  {}
+        isModalWindowTriggered: false
     };
 
-    _triggerModalWindow (e) {
-        const element = e.target;
-
-        console.log(`trigger element on click ${element}`);
-
-        /*if (element.classList.contains('movie')) {
-            const modal = this.modalWindowBuilder(element);
-
-            this.setState(() => ({
-                isModalWindowTriggered: true,
-                modal
-            }));
-        }*/
+    _triggerModalWindow () {
+        this.setState(() => ({ isModalWindowTriggered: true }));
     }
-
-    _getMovieById (id) {
-
-        console.log(`from Content method ${id}`);
-    }
-
-    _
 
     _closeModalWindow () {
         this.setState(() => ({ isModalWindowTriggered: false }));
     }
-    _modalWindowBuilder (e) {
-        return {
-            closeModalWindow: this.closeModalWindow,
-            id:               e.idOfMovie,
-            imagePath:        e.imagePathOfMovie,
-            overview:         e.overviewOfMovie,
-            popularity:       e.popularityOfMovie,
-            release_date:     e.release_dateOfMovie,
-            title:            e.titleOfMovie,
-            vote_average:     e.vote_averageOfMovie
 
-        };
+    _getMovieInfo ( movieComponent, imagePath) {
+        //console.log(`from Content method ${movieComponent.popularity}`);
+        this.modalWindowBuilder( movieComponent);
+       // ==================== OMG Below ====================
+
+        /* return {
+            id,
+            overview,
+            popularity,
+            release_date,
+            title,
+            vote_average,
+            imagePath
+        };*/
+    }
+
+    _modalWindowBuilder (movieInfo) {
+        return (
+            <ModalWindow
+                closeModalWindow = { this.closeModalWindow }
+                id = { movieInfo.id }
+                imagePath = { movieInfo.imagePath }
+                overview = { movieInfo.overview }
+                popularity = { movieInfo.popularity }
+                release_date = { movieInfo.release_date }
+                title = { movieInfo.title }
+                vote_average = { movieInfo.vote_average }
+            />
+        );
     }
 
     render () {
-        const { isModalWindowTriggered, modal } = this.state;
+        const { isModalWindowTriggered } = this.state;
+
         const modalWindowToShow = isModalWindowTriggered
             ? <ModalWindow
                 closeModalWindow = { modal.closeModalWindow }
@@ -111,7 +111,7 @@ export default class Content extends Component {
                 <Movie
                     adult = { adult }
                     backdrop_path = { backdrop_path }
-                    getMovieById = { this.getMovieById }
+                    getMovieInfo = { this.getMovieInfo }
                     id = { id }
                     key = { id }
                     overview = { overview }
@@ -150,7 +150,7 @@ export default class Content extends Component {
                 <Movie
                     adult = { adult }
                     backdrop_path = { backdrop_path }
-                    getMovieById = { this.getMovieById }
+                    getMovieInfo = { this.getMovieInfo }
                     id = { id }
                     key = { id }
                     overview = { overview }
@@ -181,7 +181,7 @@ export default class Content extends Component {
                 <Movie
                     adult = { adult }
                     backdrop_path = { backdrop_path }
-                    getMovieById = { this.getMovieById }
+                    getMovieInfo = { this.getMovieInfo }
                     id = { id }
                     key = { id }
                     overview = { overview }

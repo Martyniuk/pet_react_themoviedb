@@ -133,8 +133,6 @@ export default class SearchBar extends Component {
             moviesListRecentlyReleased
         } = this.state;
 
-        console.log(`render in SearchBar -- > movies got by search --> ${moviesGotBySearch}`);
-
         return (
             <section className = { Styles.searchBar }>
                 <form onSubmit = { this.handleSubmit } >
