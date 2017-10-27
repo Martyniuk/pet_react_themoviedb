@@ -12,6 +12,7 @@ import ModalWindow from '../ModalWindow';
 export default class Movie extends Component {
     static propTypes = {
         adult:         PropTypes.bool.isRequired,
+        getMovieById:  PropTypes.func.isRequired,
         id:            PropTypes.number.isRequired,
         overview:      PropTypes.string.isRequired,
         popularity:    PropTypes.number.isRequired,
@@ -31,29 +32,9 @@ export default class Movie extends Component {
     constructor () {
         super();
         this.imagePathCreation = ::this._imagePathCreation;
+        this.handleGettingMovieId = ::this._handleGettingMovieId;
     }
 
-    get idOfMovie () {
-        return this.props.id;
-    }
-    get overviewOfMovie () {
-        return this.props.overview;
-    }
-    get popularityOfMovie () {
-        return this.props.popularity;
-    }
-    get release_dateOfMovie () {
-        return this.props.release_date;
-    }
-    get titleOfMovie () {
-        return this.props.title;
-    }
-    get vote_averageOfMovie () {
-        return this.props.vote_average;
-    }
-    get imagePathOfMovie () {
-        this.imagePathCreation();
-    }
     _imagePathCreation () {
         const { apiToGetImageForMovie } = this.context;
 
@@ -71,12 +52,20 @@ export default class Movie extends Component {
         return `${apiToGetImageForMovie}/${file_size}/${poster_path}`;
     }
 
+    _handleGettingMovieId (e) {
+        e.preventDefault();
+
+        const { getMovieById, id } = this.props;
+
+        getMovieById(id);
+    }
+
     render () {
         const { title } = this.props;
         const imagePath = this.imagePathCreation();
 
         return (
-            <section className = { Styles.movie }>
+            <section className = { Styles.movie } onClick = { this.handleGettingMovieId }>
                 <a href = '#' >
                     <img alt = 'image' className = { Styles.img } src = { imagePath } />
                 </a>

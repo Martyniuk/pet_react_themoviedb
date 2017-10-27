@@ -28,6 +28,7 @@ export default class Content extends Component {
         this.triggerModalWindow = ::this._triggerModalWindow;
         this.closeModalWindow = ::this._closeModalWindow;
         this.modalWindowBuilder = ::this._modalWindowBuilder;
+        this.getMovieById = ::this._getMovieById;
     }
 
     state = {
@@ -38,15 +39,25 @@ export default class Content extends Component {
     _triggerModalWindow (e) {
         const element = e.target;
 
-        if (element.classList.contains('movie')) {
+        console.log(`trigger element on click ${element}`);
+
+        /*if (element.classList.contains('movie')) {
             const modal = this.modalWindowBuilder(element);
-            //console.log(`trigger element on click ${element}`);
+
             this.setState(() => ({
                 isModalWindowTriggered: true,
                 modal
             }));
-        }
+        }*/
     }
+
+    _getMovieById (id) {
+
+        console.log(`from Content method ${id}`);
+    }
+
+    _
+
     _closeModalWindow () {
         this.setState(() => ({ isModalWindowTriggered: false }));
     }
@@ -100,6 +111,7 @@ export default class Content extends Component {
                 <Movie
                     adult = { adult }
                     backdrop_path = { backdrop_path }
+                    getMovieById = { this.getMovieById }
                     id = { id }
                     key = { id }
                     overview = { overview }
@@ -138,6 +150,7 @@ export default class Content extends Component {
                 <Movie
                     adult = { adult }
                     backdrop_path = { backdrop_path }
+                    getMovieById = { this.getMovieById }
                     id = { id }
                     key = { id }
                     overview = { overview }
@@ -168,6 +181,7 @@ export default class Content extends Component {
                 <Movie
                     adult = { adult }
                     backdrop_path = { backdrop_path }
+                    getMovieById = { this.getMovieById }
                     id = { id }
                     key = { id }
                     overview = { overview }
@@ -182,7 +196,7 @@ export default class Content extends Component {
             ));
 
         return (
-            <section className = { Styles.content } onClick = { this.triggerModalWindow }>
+            <section className = { Styles.content } >
                 { modalWindowToShow }
                 { advert }
                 <h4 className = { Styles.title }>The Most Popular</h4>
