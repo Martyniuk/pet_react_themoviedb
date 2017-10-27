@@ -43,23 +43,24 @@ export default class Content extends Component {
         this.setState(() => ({ isModalWindowTriggered: false }));
     }
 
-    _getMovieInfo ( movieComponent, imagePath) {
-        //console.log(`from Content method ${movieComponent.popularity}`);
-        this.modalWindowBuilder( movieComponent);
-       // ==================== OMG Below ====================
+    _getMovieInfo (movieComponent, imagePath) {
+        const movieObj = {
+            id:           movieComponent.id,
+            overview:     movieComponent.overview,
+            popularity:   movieComponent.popularity,
+            release_date: movieComponent.release_date,
+            title:        movieComponent.title,
+            vote_average: movieComponent.vote_average,
+            imagePath:    imagePath
+        };
+        console.log(`movie information is Got ==> ${JSON.stringify(movieObj)}`);
 
-        /* return {
-            id,
-            overview,
-            popularity,
-            release_date,
-            title,
-            vote_average,
-            imagePath
-        };*/
+        return this.modalWindowBuilder(movieObj);
     }
 
     _modalWindowBuilder (movieInfo) {
+        console.log(`modal window Building is in progress ==> ${JSON.stringify(movieInfo)}`);
+
         return (
             <ModalWindow
                 closeModalWindow = { this.closeModalWindow }
@@ -77,18 +78,10 @@ export default class Content extends Component {
     render () {
         const { isModalWindowTriggered } = this.state;
 
+        console.log(`current state of Content is  ===> ${JSON.stringify(this.state)}`);
+
         const modalWindowToShow = isModalWindowTriggered
-            ? <ModalWindow
-                closeModalWindow = { modal.closeModalWindow }
-                id = { modal.id }
-                imagePath = { modal.imagePath }
-                key = { modal.id }
-                overview = { modal.overview }
-                popularity = { modal.popularity }
-                release_date = { modal.release_date }
-                title = { modal.title }
-                vote_average = { modal.vote_average }
-            />
+            ? this.getMovieInfo()
             : null;
         const {
             moviesListGotBySearch,
@@ -151,6 +144,7 @@ export default class Content extends Component {
                     adult = { adult }
                     backdrop_path = { backdrop_path }
                     getMovieInfo = { this.getMovieInfo }
+                    //triggerModalWindow = { this.triggerModalWindow }
                     id = { id }
                     key = { id }
                     overview = { overview }
