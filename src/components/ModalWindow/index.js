@@ -11,7 +11,6 @@ import Movie from '../Movie';
 
 export default class ModalWindow extends Component {
     static propTypes = {
-        adult:            PropTypes.bool.isRequired,
         closeModalWindow: PropTypes.func.isRequired,
         id:               PropTypes.number.isRequired,
         imagePath:        PropTypes.string.isRequired,
@@ -19,7 +18,8 @@ export default class ModalWindow extends Component {
         popularity:       PropTypes.number.isRequired,
         release_date:     PropTypes.string.isRequired,
         title:            PropTypes.string.isRequired,
-        vote_average:     PropTypes.number.isRequired
+        vote_average:     PropTypes.number.isRequired,
+        adult:            PropTypes.bool
     };
 
     constructor () {
@@ -67,7 +67,7 @@ export default class ModalWindow extends Component {
         return (
             <div className = { Styles.modal }>
                 <div className = { Styles.modal_content }>
-                    <span className = { Styles.cross } onClick = { this.handleClosingOfModalWindow() } />
+                    <span className = { Styles.cross } onClick = { this.handleClosingOfModalWindow } />
                     <h4>{ title }</h4>
                     <img alt = { image } src = { imagePath } />
                     <p>Overview: { overview } </p>

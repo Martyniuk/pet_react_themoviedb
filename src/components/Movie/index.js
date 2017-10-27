@@ -31,14 +31,29 @@ export default class Movie extends Component {
     constructor () {
         super();
         this.imagePathCreation = ::this._imagePathCreation;
-        this.triggerModalWindow = ::this._triggerModalWindow;
-        this.closeModalWindow = ::this._closeModalWindow;
     }
 
-    state = {
-        isModalWindowTriggered: false
-    };
-
+    get idOfMovie () {
+        return this.props.id;
+    }
+    get overviewOfMovie () {
+        return this.props.overview;
+    }
+    get popularityOfMovie () {
+        return this.props.popularity;
+    }
+    get release_dateOfMovie () {
+        return this.props.release_date;
+    }
+    get titleOfMovie () {
+        return this.props.title;
+    }
+    get vote_averageOfMovie () {
+        return this.props.vote_average;
+    }
+    get imagePathOfMovie () {
+        this.imagePathCreation();
+    }
     _imagePathCreation () {
         const { apiToGetImageForMovie } = this.context;
 
@@ -55,48 +70,13 @@ export default class Movie extends Component {
 
         return `${apiToGetImageForMovie}/${file_size}/${poster_path}`;
     }
-    _triggerModalWindow () {
-        this.setState(() => ({ isModalWindowTriggered: true }));
-    }
-    _closeModalWindow () {
-        this.setState(() => ({ isModalWindowTriggered: false }));
-    }
 
     render () {
-        const {
-            adult,
-            id,
-            overview,
-            popularity,
-            release_date,
-            title,
-            vote_average,
-            backdrop_path,
-            poster_path
-        } = this.props;
+        const { title } = this.props;
         const imagePath = this.imagePathCreation();
-        const { isModalWindowTriggered } = this.state;
-
-        const modalWindowToShow = isModalWindowTriggered
-            ? <ModalWindow
-                adult = { adult }
-                backdrop_path = { backdrop_path }
-                closeModalWindow = { this.closeModalWindow }
-                id = { id }
-                imagePath = { imagePath }
-                key = { id }
-                overview = { overview }
-                popularity = { popularity }
-                poster_path = { poster_path }
-                release_date = { release_date }
-                title = { title }
-                vote_average = { vote_average }
-            />
-            : null;
 
         return (
-            <section className = { Styles.movie } onClick = { this.triggerModalWindow }>
-                { modalWindowToShow }
+            <section className = { Styles.movie }>
                 <a href = '#' >
                     <img alt = 'image' className = { Styles.img } src = { imagePath } />
                 </a>
