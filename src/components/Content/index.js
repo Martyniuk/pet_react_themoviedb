@@ -34,81 +34,89 @@ export default class Content extends Component {
     }
 
     state = {
-        isModalWindowTriggered: false,
-        movieInModalWindow:     {},
-        imagePath:              '',
-        wishListTrigger:        false,
-        wishList:               [],
-        isIncludedToWishList:   false
+        isModalWindowTriggered:    false,
+        movieInModalWindow:        {},
+        imagePath:                 '',
+        wishListTrigger:           false,
+        wishList:                  [],
+        isMovieIncludedToWishList: false
     };
 
     _getMovieInfo (movieComponent, imagePath) {
-        //console.log(`_getMovieInfo from Content before setState with movieComponent --> ${JSON.stringify(movieComponent)} and movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
+        //const { movieInModalWindow } = this.state;
+
+        console.log(`2. ===== > _getMovieInfo before setState -- ${JSON.stringify(movieComponent)}`);
         this.setState(() => ({
             movieInModalWindow: movieComponent,
             imagePath
         }));
-        //console.log(`_getMovieInfo from Content after setState before triggerModalWindow with movieComponent --> ${JSON.stringify(movieComponent)} and movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
+        // можно ли завершить setState до того как начнет выполняться triggerModalWindow...
+        console.log(`3. =====> _getMovieInfo from Content after setState before triggerModalWindow with movieComponent --> ${JSON.stringify(movieComponent)} and \n movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
 
-        this.isMovieInWishList();
-
-        this.triggerModalWindow();
-
-        //console.log(`_getMovieInfo from Content after setState after triggerModalWindow with movieComponent --> ${JSON.stringify(movieComponent)} and movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
+        // this.isMovieInWishList();
+        this.triggerModalWindow(movieComponent);
     }
 
-    _triggerModalWindow () {
-        this.isMovieInWishList();
-
+    _triggerModalWindow (mComponent) {
+        console.log(`4. =====> _getMovieInfo from Content after setState before triggerModalWindow with movieComponent --> ${JSON.stringify(this.state.movieInModalWindow)} and \n movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
+        this.isMovieInWishList(mComponent);
+        console.log(``);
         this.setState(() => ({ isModalWindowTriggered: true }));
     }
 
     _closeModalWindow () {
-        this.isMovieInWishList();
-
         this.setState(() => ({ isModalWindowTriggered: false }));
     }
 
     _addMovieToWishList (movie) {
-        const { wishList } = this.state;
+        const {
+            wishList,
+            isMovieIncludedToWishList,
+            movieInModalWindow } = this.state;
 
-        this.isMovieInWishList();
+        console.log(`_addMovieToWishList === movieInModalWindow -> ${JSON.stringify(movieInModalWindow)}, movie got from Movie by this.props-> ${JSON.stringify(movie)}`);
 
-        this.setState(() => {
-            wishList.push(movie);
+        this.isMovieInWishList(movie);
 
-            return wishList;
-        });
+        if (!isMovieIncludedToWishList) {
+            this.setState(() => {
+                wishList.push(movie);
 
-        this.isMovieInWishList();
+                return wishList;
+            });
+        }
 
         localStorage.setItem('wishList', JSON.stringify(this.state.wishList));
     }
 
-    /*_deleteMovieFromWishList (id) {
+    _isMovieInWishList (mComponent) {
         const { wishList } = this.state;
 
-    }*/
-
-    _isMovieInWishList () {
-        const { movieInModalWindow, wishList } = this.state;
-
         if (!wishList) {
-            console.log(`wish list is empty --> ${wishList}`);
-            console.log(`CONTENT: 94L |||| movieInModalWindow --> ${JSON.stringify(movieInModalWindow)}`);
-            console.log(`as soon as Modal is Ticked "movieInModalWindow" cannot be null... 
-            something is wrong in this method...`);
+            //console.log(`as soon as Modal is Ticked "movieInModalWindow" cannot be null...
+            //something is wrong in this method...`);
 
-            return;
+            throw new Error(`Wish List is empty`);
         }
 
-        const wishListIds = wishList.map((item) => {
-            return item.id;
-        });
+        const wishListIds = wishList.map((item) => item.id);
+
+        const checkIfMovieIdIsInWishList = wishListIds.indexOf(mComponent.id) >= 0;
+
+        /*
+                console.log(`_isMovieInWishList method ==> before wishList ---> ${wishList}`);
+                console.log(`_isMovieInWishList method ==> before wishListIds ---> ${wishListIds}`);
+        */
+
+        console.log(`_isMovieInWishList method ==> before isMovieIncludedToWishList ---> ${this.state.isMovieIncludedToWishList}`);
+        console.log(`_isMovieInWishList method ==> before checkIfMovieIdIsInWishList ---> ${checkIfMovieIdIsInWishList}`);
 
         this.setState(() => ({
-            isIncludedToWishList: wishListIds.indexOf(movieInModalWindow.id) >= 0
+            isMovieIncludedToWishList: checkIfMovieIdIsInWishList
         }));
+        //console.log(`_isMovieInWishList method ==> after movieInModalWindow ==--> ${JSON.stringify(movieInModalWindow)}`);
+        console.log(`_isMovieInWishList method ==> after isMovieIncludedToWishList ---> ${this.state.isMovieIncludedToWishList}`);
+        //console.log(`_isMovieInWishList method ==> after checkIfMovieIdIsInWishList ---> ${checkIfMovieIdIsInWishList}`);
     }
 
     render () {
@@ -117,12 +125,8 @@ export default class Content extends Component {
             movieInModalWindow,
             imagePath,
             wishList,
-            isIncludedToWishList
+            isMovieIncludedToWishList
         } = this.state;
-
-        //console.log(`current state of Content is  ===> ${JSON.stringify(this.state)}`);
-
-        console.log(`Content: 121L ||| isIncludedToWishList property works incorrect ===> ${isIncludedToWishList}`);
 
         const modalWindowToShow = isModalWindowTriggered
             ? (
@@ -131,7 +135,7 @@ export default class Content extends Component {
                     closeModalWindow = { this.closeModalWindow }
                     id = { movieInModalWindow.id }
                     imagePath = { imagePath }
-                    isIncludedToWishList = { isIncludedToWishList }
+                    isMovieIncludedToWishList = { isMovieIncludedToWishList }
                     overview = { movieInModalWindow.overview }
                     popularity = { movieInModalWindow.popularity }
                     release_date = { movieInModalWindow.release_date }
@@ -148,7 +152,6 @@ export default class Content extends Component {
 
         const wishListTrigger = wishList.length !== 0
             ? <WishList
-                deleteMovieFromWishList = { this.deleteMovieFromWishList }
                 wishList = { wishList }
             />
             : null;

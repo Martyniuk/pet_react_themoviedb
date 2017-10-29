@@ -7,66 +7,76 @@ import Styles from './styles.scss';
 import image from '../../theme/assets/404.jpg';
 
 // Components
-import WishList from '../WishList';
 
 export default class ModalWindow extends Component {
     static propTypes = {
-        addMovieToWishList:   PropTypes.func.isRequired,
-        closeModalWindow:     PropTypes.func.isRequired,
-        id:                   PropTypes.number.isRequired,
-        imagePath:            PropTypes.string.isRequired,
-        isIncludedToWishList: PropTypes.bool.isRequired,
-        overview:             PropTypes.string.isRequired,
-        popularity:           PropTypes.number.isRequired,
-        release_date:         PropTypes.string.isRequired,
-        title:                PropTypes.string.isRequired,
-        vote_average:         PropTypes.number.isRequired,
-        wishList:             PropTypes.array
+        addMovieToWishList:        PropTypes.func.isRequired,
+        closeModalWindow:          PropTypes.func.isRequired,
+        id:                        PropTypes.number.isRequired,
+        imagePath:                 PropTypes.string.isRequired,
+        isMovieIncludedToWishList: PropTypes.bool.isRequired,
+        overview:                  PropTypes.string.isRequired,
+        popularity:                PropTypes.number.isRequired,
+        release_date:              PropTypes.string.isRequired,
+        title:                     PropTypes.string.isRequired,
+        vote_average:              PropTypes.number.isRequired,
+        wishList:                  PropTypes.array
     };
 
     constructor () {
         super();
         this.handleAdditionMovieToWishList = ::this._handleAdditionMovieToWishList;
         this.handleClosingOfModalWindow = ::this._handleClosingOfModalWindow;
+        this.modalWindowTriggerCheck = ::this._modalWindowTriggerCheck;
     }
 
     state = {
-        isIncludedToWishList: false
+        modalWindowCheckIfMovieIsAddedToWishList: false
     };
+
+    componentWillMount () {
+        this.modalWindowTriggerCheck();
+    }
+    componentDidMount () {
+        this.modalWindowTriggerCheck();
+    }
 
     _handleAdditionMovieToWishList () {
         const { addMovieToWishList } = this.props;
 
-        this.setState(() => ({ includedToWishList: true }));
-
-        console.log(`ModalWindow: 40L --> after setState method, Button "Watch Later" is still visible, but according to L67 condition it should be hidden...`);
-
         addMovieToWishList(this.props);
+        this.setState(() => ({ modalWindowCheckIfMovieIsAddedToWishList: true }));
     }
 
     _handleClosingOfModalWindow () {
-
         const { closeModalWindow } = this.props;
 
         closeModalWindow();
     }
 
+    _modalWindowTriggerCheck () {
+        const { isMovieIncludedToWishList } = this.props;
+
+        if (isMovieIncludedToWishList) {
+            this.setState(() => ({ modalWindowCheckIfMovieIsAddedToWishList: true }));
+        }
+    }
+
     render () {
         const {
-            id,
             imagePath,
             overview,
             popularity,
             release_date,
             title,
-            vote_average,
-            wishList,
-            isIncludedToWishList
+            vote_average
         } = this.props;
 
-        const inWishList = isIncludedToWishList
+        const { modalWindowCheckIfMovieIsAddedToWishList } = this.state;
+
+        const inWishList = modalWindowCheckIfMovieIsAddedToWishList
             ? <button disabled className = { Styles.included } >Included</button>
-            : <button className = { Styles.add } onClick = { this.handleAdditionMovieToWishList }>Watch Later</button>
+            : <button className = { Styles.add } onClick = { this.handleAdditionMovieToWishList }>Watch Later</button>;
 
         return (
             <div className = { Styles.modal }>

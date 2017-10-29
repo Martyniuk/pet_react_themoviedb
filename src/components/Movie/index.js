@@ -54,7 +54,7 @@ export default class Movie extends Component {
         const { getMovieInfo } = this.props;
         const imagePath = this.imagePathCreation();
 
-        //console.log(`_handleGettingMovieInfo in movie Component before passing it to Content ${JSON.stringify(this.props)} `);
+        console.log(`1. ======> _handleGettingMovieInfo in movie Component before passing it to Content ${JSON.stringify(this.props)} `);
         getMovieInfo(this.props, imagePath);
 
         //console.log(`_handleGettingMovieInfo in movie Component after passing it to Content ${JSON.stringify(this.props)} `);

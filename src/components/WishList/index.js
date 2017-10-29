@@ -1,20 +1,14 @@
 // Core
 import React, { Component } from 'react';
 // Instruments
-import { array, func } from 'prop-types';
+import { array } from 'prop-types';
 import Styles from './styles.scss';
 // Components
 
 export default class WishList extends Component {
     static propTypes = {
-        wishList:                array
+        wishList: array
     };
-
-    constructor () {
-        super();
-
-        //this.handleDeletionFromWishList = ::this._handleDeletionFromWishList;
-    }
 
     //constructor
     //create input button for deletion a movie from WishList
@@ -30,7 +24,8 @@ export default class WishList extends Component {
                         {movie.title}
                         <span className = { Styles.delete } onClick = { this.handleDeletionFromWishList } />
                     </li>
-                )});
+                );
+            });
 
         return (
             <ol> {moviesInList} </ol>
