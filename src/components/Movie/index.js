@@ -7,25 +7,21 @@ import Styles from './styles.scss';
 import image from '../../theme/assets/404.jpg';
 
 //Components
-import ModalWindow from '../ModalWindow';
 
 export default class Movie extends Component {
     static propTypes = {
-        adult:              PropTypes.bool.isRequired,
-        getMovieInfo:       PropTypes.func.isRequired,
-        id:                 PropTypes.number.isRequired,
-        overview:           PropTypes.string.isRequired,
-        popularity:         PropTypes.number.isRequired,
-        release_date:       PropTypes.string.isRequired,
-        title:              PropTypes.string.isRequired,
-        vote_average:       PropTypes.number.isRequired,
-        //triggerModalWindow: PropTypes.func,
-        backdrop_path:      PropTypes.string,
-        poster_path:        PropTypes.string
+        adult:         PropTypes.bool.isRequired,
+        getMovieInfo:  PropTypes.func.isRequired,
+        id:            PropTypes.number.isRequired,
+        overview:      PropTypes.string.isRequired,
+        popularity:    PropTypes.number.isRequired,
+        release_date:  PropTypes.string.isRequired,
+        title:         PropTypes.string.isRequired,
+        vote_average:  PropTypes.number.isRequired,
+        backdrop_path: PropTypes.string,
+        poster_path:   PropTypes.string
     };
-    static defaultProps = {
-        wishListTrigger: false
-    };
+
     static contextTypes = {
         apiToGetImageForMovie: PropTypes.string.isRequired
     };
@@ -34,7 +30,6 @@ export default class Movie extends Component {
         super();
         this.imagePathCreation = ::this._imagePathCreation;
         this.handleGettingMovieInfo = ::this._handleGettingMovieInfo;
-        //this.handleTriggerModalWindow = ::this._handleTriggerModalWindow;
     }
 
     _imagePathCreation () {
@@ -45,7 +40,7 @@ export default class Movie extends Component {
         const file_size = 'w300';
 
         if (!poster_path) {
-            console.log(`poster_path is missing =( ---> ${poster_path}`);
+            //console.log(`poster_path is missing =( ---> ${poster_path}`);
 
             return image;
 
@@ -61,10 +56,6 @@ export default class Movie extends Component {
 
         getMovieInfo(this.props, imagePath);
     }
-    /*_handleTriggerModalWindow () {
-        this.handleGettingMovieInfo();
-        this.props.triggerModalWindow();
-    }*/
 
     render () {
         const { title } = this.props;

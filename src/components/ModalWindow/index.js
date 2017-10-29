@@ -7,37 +7,39 @@ import Styles from './styles.scss';
 import image from '../../theme/assets/404.jpg';
 
 // Components
-import Movie from '../Movie';
+import WishList from '../WishList';
 
 export default class ModalWindow extends Component {
     static propTypes = {
-        closeModalWindow: PropTypes.func.isRequired,
-        id:               PropTypes.number.isRequired,
-        imagePath:        PropTypes.string.isRequired,
-        overview:         PropTypes.string.isRequired,
-        popularity:       PropTypes.number.isRequired,
-        release_date:     PropTypes.string.isRequired,
-        title:            PropTypes.string.isRequired,
-        vote_average:     PropTypes.number.isRequired
+        addMovieToWishList:   PropTypes.func.isRequired,
+        closeModalWindow:     PropTypes.func.isRequired,
+        id:                   PropTypes.number.isRequired,
+        imagePath:            PropTypes.string.isRequired,
+        isIncludedToWishList: PropTypes.bool.isRequired,
+        overview:             PropTypes.string.isRequired,
+        popularity:           PropTypes.number.isRequired,
+        release_date:         PropTypes.string.isRequired,
+        title:                PropTypes.string.isRequired,
+        vote_average:         PropTypes.number.isRequired,
+        wishList:             PropTypes.array
     };
 
     constructor () {
         super();
-        this.handleDeletionFromWishList = ::this._handleDeletionFromWishList;
-        this.handleAdditionToWishList = ::this._handleAdditionToWishList;
+        this.handleAdditionMovieToWishList = ::this._handleAdditionMovieToWishList;
         this.handleClosingOfModalWindow = ::this._handleClosingOfModalWindow;
     }
 
     state = {
-        includedToWishList: false
-    };
-
-    _handleDeletionFromWishList () {
-        this.setState(() => ({ includedToWishList: false }));
+        isIncludedToWishList: false
     }
 
-    _handleAdditionToWishList () {
+    _handleAdditionMovieToWishList () {
+        const { addMovieToWishList } = this.props;
+
         this.setState(() => ({ includedToWishList: true }));
+
+        addMovieToWishList(this.props);
     }
 
     _handleClosingOfModalWindow () {
@@ -49,31 +51,34 @@ export default class ModalWindow extends Component {
 
     render () {
         const {
-            adult,
             id,
             imagePath,
             overview,
             popularity,
             release_date,
             title,
-            vote_average
+            vote_average,
+            wishList,
+            isIncludedToWishList
         } = this.props;
-        //const { includedToWishList } = this.state;
 
-        /*const inWishList = includedToWishList
-            ? <span className = { Styles.inWishList } onClick = { this.handleDeletionFromWishList } />
-            : <span className = { Styles.notInWishList } onClick = { this.handleAdditionToWishList } />;*/
+        const inWishList = isIncludedToWishList
+            ? <button disabled className = { Styles.included } >Included</button>
+            : <button className = { Styles.add } onClick = { this.handleAdditionMovieToWishList }>Watch Later</button>
 
         return (
             <div className = { Styles.modal }>
                 <div className = { Styles.modal_content }>
+                    { inWishList }
                     <span className = { Styles.cross } onClick = { this.handleClosingOfModalWindow } />
-                    <h4>{ title }</h4>
+                    <p className = { Styles.modal_title }>{ title }</p>
                     <img alt = { image } src = { imagePath } />
-                    <p>Overview: { overview } </p>
-                    <p>Popularity: { popularity } </p>
-                    <p>Release date: { release_date } </p>
-                    <p>Votes average: { vote_average } </p>
+                    <div className = { Styles.modal_description }>
+                        <p><b>Overview:</b> { overview } </p>
+                        <p><b>Popularity:</b> { popularity.toFixed(2) } </p>
+                        <p><b>Release date:</b> { release_date } </p>
+                        <p><b>Votes average:</b> { vote_average } </p>
+                    </div>
                 </div>
             </div>
         );

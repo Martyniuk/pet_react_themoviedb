@@ -8,6 +8,7 @@ import Styles from './styles.scss';
 // Components
 import Movie from '../Movie';
 import ModalWindow from '../ModalWindow';
+import WishList from '../WishList';
 
 
 export default class Content extends Component {
@@ -28,69 +29,122 @@ export default class Content extends Component {
         this.triggerModalWindow = ::this._triggerModalWindow;
         this.closeModalWindow = ::this._closeModalWindow;
         this.getMovieInfo = ::this._getMovieInfo;
-        this.modalWindowBuilder = ::this._modalWindowBuilder;
+        this.addMovieToWishList = ::this._addMovieToWishList;
+        this.deleteMovieFromWishList = ::this._deleteMovieFromWishList;
+        this.isMovieInWishList = ::this._isMovieInWishList;
     }
 
     state = {
-        isModalWindowTriggered: false
+        isModalWindowTriggered: false,
+        movieInModalWindow:     {},
+        imagePath:              '',
+        wishListTrigger:        false,
+        wishList:               [],
+        isIncludedToWishList:   false
     };
 
     _triggerModalWindow () {
+        this.isMovieInWishList();
+
         this.setState(() => ({ isModalWindowTriggered: true }));
     }
 
     _closeModalWindow () {
+        this.isMovieInWishList();
+
         this.setState(() => ({ isModalWindowTriggered: false }));
     }
 
     _getMovieInfo (movieComponent, imagePath) {
-        const movieObj = {
-            id:           movieComponent.id,
-            overview:     movieComponent.overview,
-            popularity:   movieComponent.popularity,
-            release_date: movieComponent.release_date,
-            title:        movieComponent.title,
-            vote_average: movieComponent.vote_average,
-            imagePath:    imagePath
-        };
-        console.log(`Content: 56L ||||| this method is invoked to Movie Component in order to get his info by Clicking |||| movie information is Got ==> ${JSON.stringify(movieObj).substring(0, 15)}`);
+        console.log(`getMovieInfo in Content ----> ${JSON.stringify(movieComponent)}`);
 
-        return this.modalWindowBuilder(movieObj);
+        this.setState(() => ({
+            movieInModalWindow: movieComponent,
+            imagePath
+        }));
+
+        this.triggerModalWindow();
     }
 
-    _modalWindowBuilder (movieInfo) {
-        console.log(`Content: 62L ||||| this method is Building ModalWindow from info got from Movie Component |||| modal window Building is in progress ==> ${JSON.stringify(movieInfo).substring(0, 15)}`);
+    _addMovieToWishList (movie) {
+        const { wishList } = this.state;
 
+        this.isMovieInWishList();
 
-        console.log(`Content: 89L <-- condition and 197L <-- place where modal has to appear |||| i cant change state of Content in order to Trigger Modal window or it is just vyebuetsa...`);
+        this.setState(() => {
+            wishList.push(movie);
 
-        return (
-            <ModalWindow
-                closeModalWindow = { this.closeModalWindow }
-                id = { movieInfo.id }
-                imagePath = { movieInfo.imagePath }
-                overview = { movieInfo.overview }
-                popularity = { movieInfo.popularity }
-                release_date = { movieInfo.release_date }
-                title = { movieInfo.title }
-                vote_average = { movieInfo.vote_average }
-            />
-        );
+            return wishList;
+        });
+
+        localStorage.setItem('wishList', JSON.stringify(this.state.wishList));
+    }
+
+    _deleteMovieFromWishList (id) {
+        const { wishList } = this.state;
+
+    }
+
+    _isMovieInWishList () {
+        const { movieInModalWindow, wishList } = this.state;
+
+        if (!wishList || !movieInModalWindow) {
+            console.log(`wish list is empty --> ${wishList}`);
+            console.log(`movieInModalWindow --> ${movieInModalWindow}`);
+
+            return;
+        }
+
+        const wishListIds = wishList.map((item) => {
+            return item.id;
+        });
+
+        this.setState(() => ({
+            isIncludedToWishList: wishListIds.indexOf(movieInModalWindow.id) >= 0
+        }));
     }
 
     render () {
-        const { isModalWindowTriggered } = this.state;
+        const {
+            isModalWindowTriggered,
+            movieInModalWindow,
+            imagePath,
+            wishList,
+            isIncludedToWishList
+        } = this.state;
 
-        console.log(`current state of Content is  ===> ${JSON.stringify(this.state)}`);
+        //console.log(`current state of Content is  ===> ${JSON.stringify(this.state)}`);
 
         const modalWindowToShow = isModalWindowTriggered
-            ? this.getMovieInfo()
+            ? (
+                <ModalWindow
+                    addMovieToWishList = { this.addMovieToWishList }
+                    closeModalWindow = { this.closeModalWindow }
+                    id = { movieInModalWindow.id }
+                    imagePath = { imagePath }
+                    isIncludedToWishList = { isIncludedToWishList }
+                    overview = { movieInModalWindow.overview }
+                    popularity = { movieInModalWindow.popularity }
+                    release_date = { movieInModalWindow.release_date }
+                    title = { movieInModalWindow.title }
+                    vote_average = { movieInModalWindow.vote_average }
+                />
+            )
             : null;
         const {
             moviesListGotBySearch,
             mostPopularMoviesList,
             latestMoviesList
         } = this.props;
+
+        const wishListTrigger = wishList.length !== 0
+              ? /*CSSTransition*/
+                <WishList
+                    deleteMovieFromWishList = { this.deleteMovieFromWishList }
+                    wishList = { wishList }
+                />
+                /*CSSTransition*/
+              : null;
 
         const moviesListGotBySearchToRender = moviesListGotBySearch.map(
             ({
@@ -147,7 +201,6 @@ export default class Content extends Component {
                     adult = { adult }
                     backdrop_path = { backdrop_path }
                     getMovieInfo = { this.getMovieInfo }
-                    //triggerModalWindow = { this.triggerModalWindow }
                     id = { id }
                     key = { id }
                     overview = { overview }
@@ -195,6 +248,7 @@ export default class Content extends Component {
         return (
             <section className = { Styles.content } >
                 { modalWindowToShow }
+                { wishListTrigger }
                 { advert }
                 <h4 className = { Styles.title }>The Most Popular</h4>
                 <div className = { Styles.content_list }>
