@@ -39,6 +39,8 @@ export default class ModalWindow extends Component {
 
         this.setState(() => ({ includedToWishList: true }));
 
+        console.log(`ModalWindow: 40L --> after setState method, Button "Watch Later" is still visible, but according to L67 condition it should be hidden...`);
+
         addMovieToWishList(this.props);
     }
 

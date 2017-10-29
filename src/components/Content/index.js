@@ -35,12 +35,27 @@ export default class Content extends Component {
 
     state = {
         isModalWindowTriggered: false,
-        movieInModalWindow:     null,
+        movieInModalWindow:     {},
         imagePath:              '',
         wishListTrigger:        false,
         wishList:               [],
         isIncludedToWishList:   false
     };
+
+    _getMovieInfo (movieComponent, imagePath) {
+        //console.log(`_getMovieInfo from Content before setState with movieComponent --> ${JSON.stringify(movieComponent)} and movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
+        this.setState(() => ({
+            movieInModalWindow: movieComponent,
+            imagePath
+        }));
+        //console.log(`_getMovieInfo from Content after setState before triggerModalWindow with movieComponent --> ${JSON.stringify(movieComponent)} and movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
+
+        this.isMovieInWishList();
+
+        this.triggerModalWindow();
+
+        //console.log(`_getMovieInfo from Content after setState after triggerModalWindow with movieComponent --> ${JSON.stringify(movieComponent)} and movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
+    }
 
     _triggerModalWindow () {
         this.isMovieInWishList();
@@ -54,16 +69,6 @@ export default class Content extends Component {
         this.setState(() => ({ isModalWindowTriggered: false }));
     }
 
-    _getMovieInfo (movieComponent, imagePath) {
-
-        this.setState(() => ({
-            movieInModalWindow: movieComponent,
-            imagePath
-        }));
-
-        this.triggerModalWindow();
-    }
-
     _addMovieToWishList (movie) {
         const { wishList } = this.state;
 
@@ -74,6 +79,8 @@ export default class Content extends Component {
 
             return wishList;
         });
+
+        this.isMovieInWishList();
 
         localStorage.setItem('wishList', JSON.stringify(this.state.wishList));
     }
@@ -86,15 +93,15 @@ export default class Content extends Component {
     _isMovieInWishList () {
         const { movieInModalWindow, wishList } = this.state;
 
-        if (!wishList || !movieInModalWindow) {
+        if (!wishList) {
             console.log(`wish list is empty --> ${wishList}`);
-            console.log(`CONTENT: 94L |||| movieInModalWindow --> ${movieInModalWindow}`);
+            console.log(`CONTENT: 94L |||| movieInModalWindow --> ${JSON.stringify(movieInModalWindow)}`);
             console.log(`as soon as Modal is Ticked "movieInModalWindow" cannot be null... 
             something is wrong in this method...`);
 
             return;
         }
-        
+
         const wishListIds = wishList.map((item) => {
             return item.id;
         });
@@ -115,7 +122,7 @@ export default class Content extends Component {
 
         //console.log(`current state of Content is  ===> ${JSON.stringify(this.state)}`);
 
-        console.log(`Content: 120L ||| isIncludedToWishList property works incorrect ===> ${isIncludedToWishList}`);
+        console.log(`Content: 121L ||| isIncludedToWishList property works incorrect ===> ${isIncludedToWishList}`);
 
         const modalWindowToShow = isModalWindowTriggered
             ? (
