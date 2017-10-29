@@ -7,20 +7,15 @@ import Styles from './styles.scss';
 
 export default class WishList extends Component {
     static propTypes = {
-        deleteMovieFromWishList: func.isRequired,
         wishList:                array
     };
 
     constructor () {
         super();
 
-        this.handleDeletionFromWishList = ::this._handleDeletionFromWishList;
+        //this.handleDeletionFromWishList = ::this._handleDeletionFromWishList;
     }
 
-    _handleDeletionFromWishList (e) {
-        e.preventDefault();
-
-    }
     //constructor
     //create input button for deletion a movie from WishList
     //use Transition in order to implement animation

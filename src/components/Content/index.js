@@ -30,13 +30,12 @@ export default class Content extends Component {
         this.closeModalWindow = ::this._closeModalWindow;
         this.getMovieInfo = ::this._getMovieInfo;
         this.addMovieToWishList = ::this._addMovieToWishList;
-        this.deleteMovieFromWishList = ::this._deleteMovieFromWishList;
         this.isMovieInWishList = ::this._isMovieInWishList;
     }
 
     state = {
         isModalWindowTriggered: false,
-        movieInModalWindow:     {},
+        movieInModalWindow:     null,
         imagePath:              '',
         wishListTrigger:        false,
         wishList:               [],
@@ -56,7 +55,6 @@ export default class Content extends Component {
     }
 
     _getMovieInfo (movieComponent, imagePath) {
-        console.log(`getMovieInfo in Content ----> ${JSON.stringify(movieComponent)}`);
 
         this.setState(() => ({
             movieInModalWindow: movieComponent,
@@ -80,21 +78,23 @@ export default class Content extends Component {
         localStorage.setItem('wishList', JSON.stringify(this.state.wishList));
     }
 
-    _deleteMovieFromWishList (id) {
+    /*_deleteMovieFromWishList (id) {
         const { wishList } = this.state;
 
-    }
+    }*/
 
     _isMovieInWishList () {
         const { movieInModalWindow, wishList } = this.state;
 
         if (!wishList || !movieInModalWindow) {
             console.log(`wish list is empty --> ${wishList}`);
-            console.log(`movieInModalWindow --> ${movieInModalWindow}`);
+            console.log(`CONTENT: 94L |||| movieInModalWindow --> ${movieInModalWindow}`);
+            console.log(`as soon as Modal is Ticked "movieInModalWindow" cannot be null... 
+            something is wrong in this method...`);
 
             return;
         }
-
+        
         const wishListIds = wishList.map((item) => {
             return item.id;
         });
@@ -114,6 +114,8 @@ export default class Content extends Component {
         } = this.state;
 
         //console.log(`current state of Content is  ===> ${JSON.stringify(this.state)}`);
+
+        console.log(`Content: 120L ||| isIncludedToWishList property works incorrect ===> ${isIncludedToWishList}`);
 
         const modalWindowToShow = isModalWindowTriggered
             ? (
@@ -138,13 +140,11 @@ export default class Content extends Component {
         } = this.props;
 
         const wishListTrigger = wishList.length !== 0
-              ? /*CSSTransition*/
-                <WishList
-                    deleteMovieFromWishList = { this.deleteMovieFromWishList }
-                    wishList = { wishList }
-                />
-                /*CSSTransition*/
-              : null;
+            ? <WishList
+                deleteMovieFromWishList = { this.deleteMovieFromWishList }
+                wishList = { wishList }
+            />
+            : null;
 
         const moviesListGotBySearchToRender = moviesListGotBySearch.map(
             ({

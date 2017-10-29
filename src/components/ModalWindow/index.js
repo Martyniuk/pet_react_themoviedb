@@ -32,7 +32,7 @@ export default class ModalWindow extends Component {
 
     state = {
         isIncludedToWishList: false
-    }
+    };
 
     _handleAdditionMovieToWishList () {
         const { addMovieToWishList } = this.props;
