@@ -1,0 +1,62 @@
+@import '../../theme/palette';
+@import '../../theme/animations';
+
+.wish_list {
+    position: absolute;
+    top: 0.3%;
+    left: 2%;
+    line-height: 1;
+    background-color: cornsilk;
+    padding: 0 20px;
+    border: 1px solid #fff;
+    border-radius: 14px;
+
+    .itemInStart {
+        transform: scale(.5);
+        opacity: .01;
+    }
+    .itemInEnd {
+        transform: scale(1);
+        transition: opacity 700ms $cubic1,
+            transform 700ms $cubic1;
+        opacity: 1;
+    }
+    .itemOutStart {
+        transform: rotate3d(0, 0, 0, 0) translate(0, 0);
+        opacity: 1;
+    }
+    .itemOutEnd {
+        transform: rotate3d(3, 2, 1, 107deg) translate(1250px, -110px);
+        transition: opacity 600ms $cubic2, transform 600ms $cubic2;
+        opacity: .01;
+    }
+
+    .title {
+        font-family: cursive;
+        font-size: 15px;
+        font-weight: 600;
+        margin: 15px;
+    }
+
+    ol {
+        list-style: none;
+    }
+
+    li {
+        counter-increment: item;
+        margin-bottom: 5px;
+        font-style: italic;
+    }
+
+    li:before {
+        margin-right: 10px;
+        content: counter(item);
+        background: lightblue;
+        border-radius: 100%;
+        color: white;
+        width: 1.2em;
+        text-align: center;
+        display: inline-block;
+    }
+
+}

@@ -4,12 +4,13 @@ import React, { Component } from 'react';
 // Instruments
 import { array } from 'prop-types';
 import Styles from './styles.scss';
+import { Transition } from 'react-transition-group';
+import { fromTo } from 'gsap';
 
 // Components
 import Movie from '../Movie';
 import ModalWindow from '../ModalWindow';
 import WishList from '../WishList';
-
 
 export default class Content extends Component {
     static propTypes = {
@@ -31,6 +32,7 @@ export default class Content extends Component {
         this.getMovieInfo = ::this._getMovieInfo;
         this.addMovieToWishList = ::this._addMovieToWishList;
         this.isMovieInWishList = ::this._isMovieInWishList;
+        this.handleWishListToAppear = ::this._handleWishListToAppear;
     }
 
     state = {
@@ -38,29 +40,27 @@ export default class Content extends Component {
         movieInModalWindow:        {},
         imagePath:                 '',
         wishListTrigger:           false,
-        wishList:                  [],
-        isMovieIncludedToWishList: false
+        //wishList:                  [],
+        isMovieIncludedToWishList: false,
+        dataUpdate:                true 
     };
 
-    _getMovieInfo (movieComponent, imagePath) {
+    _getMovieInfo (movie, imagePath) {
         //const { movieInModalWindow } = this.state;
 
-        console.log(`2. ===== > _getMovieInfo before setState -- ${JSON.stringify(movieComponent)}`);
-        this.setState(() => ({
-            movieInModalWindow: movieComponent,
-            imagePath
+        this.setState(() => ({ 
+            movieInModalWindow: movie,
+            imagePath 
         }));
-        // можно ли завершить setState до того как начнет выполняться triggerModalWindow...
-        console.log(`3. =====> _getMovieInfo from Content after setState before triggerModalWindow with movieComponent --> ${JSON.stringify(movieComponent)} and \n movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
 
         // this.isMovieInWishList();
-        this.triggerModalWindow(movieComponent);
+        this.triggerModalWindow(movie);
     }
 
-    _triggerModalWindow (mComponent) {
-        console.log(`4. =====> _getMovieInfo from Content after setState before triggerModalWindow with movieComponent --> ${JSON.stringify(this.state.movieInModalWindow)} and \n movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
-        this.isMovieInWishList(mComponent);
-        console.log(``);
+    _triggerModalWindow (movie) {
+        
+        this.isMovieInWishList(movie);
+
         this.setState(() => ({ isModalWindowTriggered: true }));
     }
 
@@ -69,54 +69,56 @@ export default class Content extends Component {
     }
 
     _addMovieToWishList (movie) {
-        const {
-            wishList,
-            isMovieIncludedToWishList,
-            movieInModalWindow } = this.state;
-
-        console.log(`_addMovieToWishList === movieInModalWindow -> ${JSON.stringify(movieInModalWindow)}, movie got from Movie by this.props-> ${JSON.stringify(movie)}`);
 
         this.isMovieInWishList(movie);
 
+        const { isMovieIncludedToWishList } = this.state;
+        
+        /* if (!localStorage.getItem('wishList')) {
+            localStorage.setItem('wishList', []);
+        } */
+        console.log(`_addMovieToWishList --> add to wish list ${localStorage}`);
         if (!isMovieIncludedToWishList) {
-            this.setState(() => {
-                wishList.push(movie);
-
-                return wishList;
-            });
+            let wishList = JSON.parse(localStorage.getItem('wishList'));
+            console.log(`inside _addMovieToWishList`);
+            wishList = [movie, ...wishList];
+            console.log(`inside _addMovieToWishList ${wishList}`);
+            localStorage.setItem('wishList', JSON.stringify(wishList));
+            console.log(`_addMovieToWishList --> add to wish list ${JSON.stringify(localStorage)}`);
         }
-
-        localStorage.setItem('wishList', JSON.stringify(this.state.wishList));
+        // dont know how to update state ... so 
+        // this.isMovieInWishList(movie);     
+        this.setState(() => {
+            dataUpdate: true
+        });
     }
 
-    _isMovieInWishList (mComponent) {
-        const { wishList } = this.state;
+    _isMovieInWishList (movie) {
+        const interimList = JSON.parse(localStorage.getItem('wishList'));
 
-        if (!wishList) {
-            //console.log(`as soon as Modal is Ticked "movieInModalWindow" cannot be null...
-            //something is wrong in this method...`);
-
-            throw new Error(`Wish List is empty`);
+        if (interimList) {
+            const ifMovieIsInWishList = interimList.includes(movie);
+            this.setState(() => ({
+                isMovieIncludedToWishList: ifMovieIsInWishList
+            }));
         }
+    }
 
-        const wishListIds = wishList.map((item) => item.id);
-
-        const checkIfMovieIdIsInWishList = wishListIds.indexOf(mComponent.id) >= 0;
-
-        /*
-                console.log(`_isMovieInWishList method ==> before wishList ---> ${wishList}`);
-                console.log(`_isMovieInWishList method ==> before wishListIds ---> ${wishListIds}`);
-        */
-
-        console.log(`_isMovieInWishList method ==> before isMovieIncludedToWishList ---> ${this.state.isMovieIncludedToWishList}`);
-        console.log(`_isMovieInWishList method ==> before checkIfMovieIdIsInWishList ---> ${checkIfMovieIdIsInWishList}`);
-
-        this.setState(() => ({
-            isMovieIncludedToWishList: checkIfMovieIdIsInWishList
-        }));
-        //console.log(`_isMovieInWishList method ==> after movieInModalWindow ==--> ${JSON.stringify(movieInModalWindow)}`);
-        console.log(`_isMovieInWishList method ==> after isMovieIncludedToWishList ---> ${this.state.isMovieIncludedToWishList}`);
-        //console.log(`_isMovieInWishList method ==> after checkIfMovieIdIsInWishList ---> ${checkIfMovieIdIsInWishList}`);
+    _handleWishListToAppear (wishList) {
+        fromTo(
+            wishList,
+            1,
+            {
+                x:         -400,
+                y:         0,
+                opacity:   0,
+            },
+            {
+                x:         0,
+                y:         0,
+                opacity:   1,
+            }
+        );
     }
 
     render () {
@@ -124,9 +126,17 @@ export default class Content extends Component {
             isModalWindowTriggered,
             movieInModalWindow,
             imagePath,
-            wishList,
             isMovieIncludedToWishList
         } = this.state;
+        /* let wishList = [
+            {
+                id: 123,
+                title: 'Not Empty'
+            }
+        ];
+        
+        localStorage.setItem('wishList', JSON.stringify(wishList)); */
+        wishList = JSON.parse(localStorage.getItem('wishList'));
 
         const modalWindowToShow = isModalWindowTriggered
             ? (
@@ -150,10 +160,8 @@ export default class Content extends Component {
             latestMoviesList
         } = this.props;
 
-        const wishListTrigger = wishList.length !== 0
-            ? <WishList
-                wishList = { wishList }
-            />
+        const wishListTrigger = wishList
+            ? <WishList wishList = { wishList } />
             : null;
 
         const moviesListGotBySearchToRender = moviesListGotBySearch.map(

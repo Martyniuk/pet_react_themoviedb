@@ -14,6 +14,10 @@
     font-variant: normal;
     font-weight: 500;
     line-height: 26.4px;
+    &:hover{
+      text-decoration: underline;
+      cursor: default;
+    }
   }
 
   .content_list {

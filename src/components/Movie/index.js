@@ -40,10 +40,8 @@ export default class Movie extends Component {
         const file_size = 'w300';
 
         if (!poster_path) {
-            //console.log(`poster_path is missing =( ---> ${poster_path}`);
 
             return image;
-
         }
 
         return `${apiToGetImageForMovie}/${file_size}/${poster_path}`;
@@ -54,10 +52,7 @@ export default class Movie extends Component {
         const { getMovieInfo } = this.props;
         const imagePath = this.imagePathCreation();
 
-        console.log(`1. ======> _handleGettingMovieInfo in movie Component before passing it to Content ${JSON.stringify(this.props)} `);
         getMovieInfo(this.props, imagePath);
-
-        //console.log(`_handleGettingMovieInfo in movie Component after passing it to Content ${JSON.stringify(this.props)} `);
     }
 
     render () {
@@ -69,7 +64,7 @@ export default class Movie extends Component {
                 <a href = '#' >
                     <img alt = 'image' className = { Styles.img } src = { imagePath } />
                 </a>
-                <div>
+                <div className = { Styles.title }>
                     <a href = '#' >
                         <p> { title } </p>
                     </a>
