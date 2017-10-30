@@ -47,6 +47,7 @@ export default class Content extends Component {
 
     _getMovieInfo (movie, imagePath) {
         //const { movieInModalWindow } = this.state;
+        this.isMovieInWishList(movie);
 
         this.setState(() => ({ 
             movieInModalWindow: movie,
@@ -74,30 +75,31 @@ export default class Content extends Component {
 
         const { isMovieIncludedToWishList } = this.state;
         
-        /* if (!localStorage.getItem('wishList')) {
-            localStorage.setItem('wishList', []);
-        } */
-        console.log(`_addMovieToWishList --> add to wish list ${localStorage}`);
+        if (!localStorage.getItem('wishList')) {
+            localStorage.setItem('wishList', JSON.stringify([]));
+        }
+
         if (!isMovieIncludedToWishList) {
             let wishList = JSON.parse(localStorage.getItem('wishList'));
-            console.log(`inside _addMovieToWishList`);
+
             wishList = [movie, ...wishList];
-            console.log(`inside _addMovieToWishList ${wishList}`);
+
             localStorage.setItem('wishList', JSON.stringify(wishList));
-            console.log(`_addMovieToWishList --> add to wish list ${JSON.stringify(localStorage)}`);
+            this.setState(() => {
+                isMovieIncludedToWishList: true
+            });
         }
         // dont know how to update state ... so 
         // this.isMovieInWishList(movie);     
-        this.setState(() => {
-            dataUpdate: true
-        });
+       
     }
 
     _isMovieInWishList (movie) {
         const interimList = JSON.parse(localStorage.getItem('wishList'));
-
+        console.log(`interimList ${interimList}`);
         if (interimList) {
-            const ifMovieIsInWishList = interimList.includes(movie);
+            const ifMovieIsInWishList = interimList.find((item) => item.id === movie.id);
+            console.log(`ifMovieIsInWishList ${ifMovieIsInWishList}`);
             this.setState(() => ({
                 isMovieIncludedToWishList: ifMovieIsInWishList
             }));
@@ -128,15 +130,8 @@ export default class Content extends Component {
             imagePath,
             isMovieIncludedToWishList
         } = this.state;
-        /* let wishList = [
-            {
-                id: 123,
-                title: 'Not Empty'
-            }
-        ];
-        
-        localStorage.setItem('wishList', JSON.stringify(wishList)); */
-        wishList = JSON.parse(localStorage.getItem('wishList'));
+
+        const wishList = JSON.parse(localStorage.getItem('wishList'));
 
         const modalWindowToShow = isModalWindowTriggered
             ? (
