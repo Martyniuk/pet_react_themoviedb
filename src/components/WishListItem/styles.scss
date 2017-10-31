@@ -1,0 +1,27 @@
+
+li {
+  counter-increment: item;
+  margin-bottom: 5px;
+  font-style: italic;
+}
+
+li:before {
+  margin-right: 10px;
+  content: counter(item);
+  background: lightblue;
+  border-radius: 100%;
+  color: white;
+  width: 1.2em;
+  text-align: center;
+  display: inline-block;
+}
+
+.delete {
+
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  color: red;
+  margin-left: 5px;
+  cursor: pointer;
+}

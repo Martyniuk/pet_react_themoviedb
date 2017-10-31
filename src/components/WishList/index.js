@@ -9,35 +9,32 @@ import {
     TransitionGroup
 } from 'react-transition-group';
 // Components
+import WishListItem from '../WishListItem';
 
 export default class WishList extends Component {
     static propTypes = {
-        wishList: array,
-        deleteMovieFromWishList: func.isRequired
+        deleteMovieFromWishList: func.isRequired,
+        wishList:                array
     };
 
     constructor () {
         super();
 
-        this.handleDeletionFromWishList = this._handleDeletionFromWishList;
+        this.deleteMovieItemFromWishList = this._deleteMovieItemFromWishList;
     }
 
-    _handleDeletionFromWishList (e) {
-        e.preventDefault();
-        //const { deleteMovieFromWishList } = this.props;
-        const element = e.target;
-        //console.log(this.props);
-        console.log(`onClock detelet item -- > ${element}`)
-       
+    _deleteMovieItemFromWishList (movieId) {
+        const { deleteMovieFromWishList } = this.props;
+
+        deleteMovieFromWishList(movieId);
     }
 
     render () {
         const { wishList } = this.props;
 
         const moviesInList = wishList.map(
-            (movie) => {
-                return (
-                    <CSSTransition
+            (movie) => (
+                <CSSTransition
                     classNames = { {
                         enter:       Styles.itemInStart,
                         enterActive: Styles.itemInEnd,
@@ -46,22 +43,22 @@ export default class WishList extends Component {
                     } }
                     key = { movie.id }
                     timeout = { { enter: 700, exit: 600 } }>
-                        <li className = { Styles.itemInList } id = { movie.id }>
-                            { movie.title }
-                            <span className = { Styles.delete } onClick = { this.handleDeletionFromWishList }>[x]</span>
-                        </li>
-                    </CSSTransition>
-                );
-            });
+                    <WishListItem
+                        deleteMovieItemFromWishList = { this.deleteMovieItemFromWishList }
+                        id = { movie.id }
+                        title = { movie.title }
+                    />
+                </CSSTransition>
+            ));
 
         return (
             <div className = { Styles.wish_list }>
-              <h5 className = { Styles.title }>Ur Wish List:</h5> 
-              <ol> 
-                  <TransitionGroup>
-                    { moviesInList }
-                  </TransitionGroup>
-              </ol>  
+                <h5 className = { Styles.title }>Ur Wish List:</h5>
+                <ol>
+                    <TransitionGroup>
+                        { moviesInList }
+                    </TransitionGroup>
+                </ol>
             </div>
         );
     }

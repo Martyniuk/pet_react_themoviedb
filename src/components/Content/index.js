@@ -32,7 +32,7 @@ export default class Content extends Component {
         this.getMovieInfo = ::this._getMovieInfo;
         this.addMovieToWishList = ::this._addMovieToWishList;
         this.isMovieInWishList = ::this._isMovieInWishList;
-        this.handleWishListToAppear = ::this._handleWishListToAppear;
+        //this.handleWishListToAppear = ::this._handleWishListToAppear;
         this.deleteMovieFromWishList = ::this._deleteMovieFromWishList;
     }
 
@@ -82,29 +82,22 @@ export default class Content extends Component {
             wishList = [movie, ...wishList];
 
             localStorage.setItem('wishList', JSON.stringify(wishList));
-            this.setState(() => {
-                isMovieIncludedToWishList: true
-            });
+
+            this.setState(() => ({ isMovieIncludedToWishList: true }));
         } else {
-            this.setState(() => {
-                isMovieIncludedToWishList: false
-            });
+            this.setState(() => ({ isMovieIncludedToWishList: false }));
         }
     }
 
     _deleteMovieFromWishList (movieId) {
 
         const wishList = JSON.parse(localStorage.getItem('wishList'));
-        console.log(`wishList in deketeion before filtering -- ${wishList}`);
 
         wishList.filter((movie) => movie.id !== movieId);
 
-        console.log(`wishList in deketeion after filtering -- ${wishList}`);
-        /* this.setState(() => {
-            dataUpdate: true
-        }); */
-        localStorage.setItem('wishList', JSON.stringify(wishList));
+        this.setState(() => ({ dataUpdate: true }));
 
+        localStorage.setItem('wishList', JSON.stringify(wishList));
     }
 
     _isMovieInWishList (movie) {
@@ -125,23 +118,6 @@ export default class Content extends Component {
                 }));
             }
         }
-    }
-
-    _handleWishListToAppear (wishList) {
-        fromTo(
-            wishList,
-            1,
-            {
-                x:         -400,
-                y:         0,
-                opacity:   0,
-            },
-            {
-                x:         0,
-                y:         0,
-                opacity:   1,
-            }
-        );
     }
 
     render () {
