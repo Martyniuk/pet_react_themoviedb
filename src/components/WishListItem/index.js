@@ -9,21 +9,21 @@ import Styles from './styles.scss';
 
 export default class WishListItem extends Component {
     static propTypes = {
-        deleteMovieItemFromWishList: PropTypes.func.isRequired,
-        id:                          PropTypes.number.isRequired,
-        title:                       PropTypes.string.isRequired
+        deleteMovieFromWishList: PropTypes.func.isRequired,
+        id:                      PropTypes.number.isRequired,
+        title:                   PropTypes.string.isRequired
     };
 
     constructor () {
         super();
-        this.handleMovieDeletionFromWishList = ::this._handleMovieDeletionFromWishList;
+        this.handleMovieDeletionFromWishList = ::this._handleDeleteMovieFromWishList;
     }
 
-    _handleMovieDeletionFromWishList (e) {
+    _handleDeleteMovieFromWishList (e) {
         e.preventDefault();
-        const { deleteMovieItemFromWishList, id } = this.props;
+        const { deleteMovieFromWishList, id } = this.props;
 
-        deleteMovieItemFromWishList(id);
+        deleteMovieFromWishList(id);
     }
 
     render () {

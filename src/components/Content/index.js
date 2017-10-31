@@ -42,7 +42,7 @@ export default class Content extends Component {
         imagePath:                 '',
         wishListTrigger:           false,
         isMovieIncludedToWishList: false,
-        dataUpdate:                true
+        dataUpdate:                false
     };
 
     _getMovieInfo (movie, imagePath) {
@@ -91,10 +91,19 @@ export default class Content extends Component {
 
     _deleteMovieFromWishList (movieId) {
 
-        const wishList = JSON.parse(localStorage.getItem('wishList'));
+        const wishListCurrent = JSON.parse(localStorage.getItem('wishList'));
 
-        wishList.filter((movie) => movie.id !== movieId);
+        console.log(`Content --> ${wishListCurrent}`);
+        console.log(`Content --> ${movieId}`);
 
+        const wishList = wishListCurrent.filter((movie) => movie.id !== movieId);
+        
+        /*wishList.filter((movie) => {
+            console.log(`movieId ==> ${movie.id}`);
+
+            return movie.id !== movieId;
+        });*/
+        console.log(`Content --> ${JSON.stringify(wishList)}`);
         this.setState(() => ({ dataUpdate: true }));
 
         localStorage.setItem('wishList', JSON.stringify(wishList));

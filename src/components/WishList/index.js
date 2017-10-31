@@ -20,10 +20,10 @@ export default class WishList extends Component {
     constructor () {
         super();
 
-        this.deleteMovieItemFromWishList = this._deleteMovieItemFromWishList;
+        this.deleteMovieFromWishList = :: this._deleteMovieFromWishList;
     }
 
-    _deleteMovieItemFromWishList (movieId) {
+    _deleteMovieFromWishList (movieId) {
         const { deleteMovieFromWishList } = this.props;
 
         deleteMovieFromWishList(movieId);
@@ -44,7 +44,7 @@ export default class WishList extends Component {
                     key = { movie.id }
                     timeout = { { enter: 700, exit: 600 } }>
                     <WishListItem
-                        deleteMovieItemFromWishList = { this.deleteMovieItemFromWishList }
+                        deleteMovieFromWishList = { this.deleteMovieFromWishList }
                         id = { movie.id }
                         title = { movie.title }
                     />
