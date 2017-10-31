@@ -1,18 +1,35 @@
 // Core
 import React, { Component } from 'react';
 // Instruments
-import { array } from 'prop-types';
+import { array, func } from 'prop-types';
 import Styles from './styles.scss';
+import {
+    Transition,
+    CSSTransition,
+    TransitionGroup
+} from 'react-transition-group';
 // Components
 
 export default class WishList extends Component {
     static propTypes = {
-        wishList: array
+        wishList: array,
+        deleteMovieFromWishList: func.isRequired
     };
 
-    //constructor
-    //create input button for deletion a movie from WishList
-    //use Transition in order to implement animation
+    constructor () {
+        super();
+
+        this.handleDeletionFromWishList = this._handleDeletionFromWishList;
+    }
+
+    _handleDeletionFromWishList (e) {
+        e.preventDefault();
+        //const { deleteMovieFromWishList } = this.props;
+        const element = e.target;
+        //console.log(this.props);
+        console.log(`onClock detelet item -- > ${element}`)
+       
+    }
 
     render () {
         const { wishList } = this.props;
@@ -20,15 +37,32 @@ export default class WishList extends Component {
         const moviesInList = wishList.map(
             (movie) => {
                 return (
-                    <li className = { Styles.itemInWishList } key = { movie.id }>
-                        {movie.title}
-                        <span className = { Styles.delete } onClick = { this.handleDeletionFromWishList } />
-                    </li>
+                    <CSSTransition
+                    classNames = { {
+                        enter:       Styles.itemInStart,
+                        enterActive: Styles.itemInEnd,
+                        exit:        Styles.itemOutStart,
+                        exitActive:  Styles.itemOutEnd
+                    } }
+                    key = { movie.id }
+                    timeout = { { enter: 700, exit: 600 } }>
+                        <li className = { Styles.itemInList } id = { movie.id }>
+                            { movie.title }
+                            <span className = { Styles.delete } onClick = { this.handleDeletionFromWishList }>[x]</span>
+                        </li>
+                    </CSSTransition>
                 );
             });
 
         return (
-            <ol> {moviesInList} </ol>
+            <div className = { Styles.wish_list }>
+              <h5 className = { Styles.title }>Ur Wish List:</h5> 
+              <ol> 
+                  <TransitionGroup>
+                    { moviesInList }
+                  </TransitionGroup>
+              </ol>  
+            </div>
         );
     }
 }

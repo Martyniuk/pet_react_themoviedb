@@ -23,8 +23,8 @@ export default class SearchBar extends Component {
         this.getMoviesBySearch = ::this._getMoviesBySearch;
         this.getMostPopularMovies = ::this._getMostPopularMovies;
         this.getNewestMovies = ::this._getNewestMovies;
-        this.startPostFetching = ::this._startPostFetching;
-        this.stopPostFetching = ::this._stopPostFetching;
+        this.startDataFetching = ::this._startDataFetching;
+        this.stopDataFetching = ::this._stopDataFetching;
     }
 
     state = {
@@ -32,7 +32,7 @@ export default class SearchBar extends Component {
         moviesGotBySearch:          [],
         moviesListGotByPopularity:  [],
         moviesListRecentlyReleased: [],
-        postsFetching:              false
+        dataFetching:               false
     };
 
     componentDidMount () {
@@ -50,13 +50,13 @@ export default class SearchBar extends Component {
 
         const url = `${this.context.apiToGetMoviesBySearch}&query=${textInputValue}`;
 
-        this.startPostFetching();
+        this.startDataFetching();
 
         fetch(url, { method: 'GET' })
             .then((response) => {
                 if (response.status !== 200) {
-                    this.stopPostFetching();
-                    throw new Error('ty wo zdurel?...status daleko ne 200!');
+                    this.stopDataFetching();
+                    throw new Error(`Status of request for getting Movies by ${textInputValue} is ${response.status}`);
                 }
 
                 return response.json();
@@ -64,9 +64,8 @@ export default class SearchBar extends Component {
             .then(({ results }) => {
                 this.setState(() => ({
                     moviesGotBySearch: results,
-                    postsFetching:     false
+                    dataFetching:     false
                 }));
-                console.log(`results of fetch by search ---> ${results.length}`);
             })
             .catch(({ message }) => console.error(`dude, some shit is happening...call your Roof --> ${message}`));
     }
@@ -75,12 +74,12 @@ export default class SearchBar extends Component {
 
         const url = `${this.context.apiToGetMostPopularMovies}`;
 
-        this.startPostFetching();
+        this.startDataFetching();
 
         fetch(url, { method: 'GET' })
             .then((response) => {
                 if (response.status !== 200) {
-                    this.stopPostFetching();
+                    this.stopDataFetching();
                     throw new Error(`Status of request for getting The most popular Movies is  --> ${response.status}`);
                 }
 
@@ -89,7 +88,7 @@ export default class SearchBar extends Component {
             .then(({ results }) => {
                 this.setState(() => ({
                     moviesListGotByPopularity: results,
-                    postsFetching:             false
+                    dataFetching:             false
                 }));
                 console.log(`result of fetch most popular ---> ${this.state.moviesListGotByPopularity}`);
             })
@@ -100,12 +99,12 @@ export default class SearchBar extends Component {
 
         const url = `${this.context.apiToGetTheNewestMovies}`;
 
-        this.startPostFetching();
+        this.startDataFetching();
 
         fetch(url, { method: `GET` })
             .then((response) => {
                 if (response.status !== 200) {
-                    this.stopPostFetching();
+                    this.stopDataFetching();
                     throw new Error(`Status of request for getting Newest Movies is --> ${response.status}`);
                 }
 
@@ -114,9 +113,8 @@ export default class SearchBar extends Component {
             .then(({ results }) => {
                 this.setState(() => ({
                     moviesListRecentlyReleased: results,
-                    postsFetching:              false
+                    dataFetching:               false
                 }));
-                console.log(`result of fetch newest movies ---> ${this.state.moviesListRecentlyReleased}`); //not empty --> 20
             })
             .catch(({ message }) => console.error(`Getting of Newest Movies processed with an Error --> ${message}`));
     }
@@ -133,20 +131,20 @@ export default class SearchBar extends Component {
 
         const { textInputValue } = this.state;
 
+        // do we need below if, coz we are handling this error in getMoviesBySearch
         if (!textInputValue.trim()) {
-            // error pop up can be implemented with Transition
             return;
         }
 
         this.getMoviesBySearch();
     }
 
-    _startPostFetching () {
-        this.setState(() => ({ postsFetching: true }));
+    _startDataFetching () {
+        this.setState(() => ({ dataFetching: true }));
     }
 
-    _stopPostFetching () {
-        this.setState(() => ({ postsFetching: false }));
+    _stopDataFetching () {
+        this.setState(() => ({ dataFetching: false }));
     }
 
     // try to implement SearchBar to appear
@@ -159,10 +157,10 @@ export default class SearchBar extends Component {
             moviesGotBySearch,
             moviesListGotByPopularity,
             moviesListRecentlyReleased,
-            postsFetching
+            dataFetching
         } = this.state;
 
-        const spinner = postsFetching ? <Spinner /> : null;
+        const spinner = dataFetching ? <Spinner /> : null;
 
         return (
             <section className = { Styles.searchBar }>
