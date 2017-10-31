@@ -45,13 +45,11 @@ export default class Content extends Component {
     _getMovieInfo (movieComponent, imagePath) {
         //const { movieInModalWindow } = this.state;
 
-        console.log(`2. ===== > _getMovieInfo before setState -- ${JSON.stringify(movieComponent)}`);
         this.setState(() => ({
             movieInModalWindow: movieComponent,
             imagePath
         }));
         // можно ли завершить setState до того как начнет выполняться triggerModalWindow...
-        console.log(`3. =====> _getMovieInfo from Content after setState before triggerModalWindow with movieComponent --> ${JSON.stringify(movieComponent)} and \n movieInModalWindow is ${JSON.stringify(this.state.movieInModalWindow)}`);
 
         // this.isMovieInWishList();
         this.triggerModalWindow(movieComponent);
@@ -108,14 +106,14 @@ export default class Content extends Component {
                 console.log(`_isMovieInWishList method ==> before wishListIds ---> ${wishListIds}`);
         */
 
-        console.log(`_isMovieInWishList method ==> before isMovieIncludedToWishList ---> ${this.state.isMovieIncludedToWishList}`);
-        console.log(`_isMovieInWishList method ==> before checkIfMovieIdIsInWishList ---> ${checkIfMovieIdIsInWishList}`);
+        //console.log(`_isMovieInWishList method ==> before isMovieIncludedToWishList ---> ${this.state.isMovieIncludedToWishList}`);
+        //console.log(`_isMovieInWishList method ==> before checkIfMovieIdIsInWishList ---> ${checkIfMovieIdIsInWishList}`);
 
         this.setState(() => ({
             isMovieIncludedToWishList: checkIfMovieIdIsInWishList
         }));
         //console.log(`_isMovieInWishList method ==> after movieInModalWindow ==--> ${JSON.stringify(movieInModalWindow)}`);
-        console.log(`_isMovieInWishList method ==> after isMovieIncludedToWishList ---> ${this.state.isMovieIncludedToWishList}`);
+        //console.log(`_isMovieInWishList method ==> after isMovieIncludedToWishList ---> ${this.state.isMovieIncludedToWishList}`);
         //console.log(`_isMovieInWishList method ==> after checkIfMovieIdIsInWishList ---> ${checkIfMovieIdIsInWishList}`);
     }
 
