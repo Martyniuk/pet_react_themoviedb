@@ -85,13 +85,20 @@ export default class Content extends Component {
             this.setState(() => {
                 isMovieIncludedToWishList: true
             });
+        } else {
+            this.setState(() => {
+                isMovieIncludedToWishList: false
+            });
         }
     }
 
     _deleteMovieFromWishList (movieId) {
+
         const wishList = JSON.parse(localStorage.getItem('wishList'));
         console.log(`wishList in deketeion before filtering -- ${wishList}`);
+
         wishList.filter((movie) => movie.id !== movieId);
+
         console.log(`wishList in deketeion after filtering -- ${wishList}`);
         /* this.setState(() => {
             dataUpdate: true
@@ -102,7 +109,9 @@ export default class Content extends Component {
 
     _isMovieInWishList (movie) {
         const interimList = JSON.parse(localStorage.getItem('wishList'));
-        console.log(`interimList ${interimList}`);
+
+        //console.log(`interimList ${interimList}`);
+
         if (interimList) {
             const ifMovieIsInWishList = interimList.find((item) => item.id === movie.id);
             console.log(`ifMovieIsInWishList ${ifMovieIsInWishList}`);
