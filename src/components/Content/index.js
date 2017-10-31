@@ -33,6 +33,7 @@ export default class Content extends Component {
         this.addMovieToWishList = ::this._addMovieToWishList;
         this.isMovieInWishList = ::this._isMovieInWishList;
         this.handleWishListToAppear = ::this._handleWishListToAppear;
+        this.deleteMovieFromWishList = ::this._deleteMovieFromWishList;
     }
 
     state = {
@@ -40,13 +41,11 @@ export default class Content extends Component {
         movieInModalWindow:        {},
         imagePath:                 '',
         wishListTrigger:           false,
-        //wishList:                  [],
         isMovieIncludedToWishList: false,
         dataUpdate:                true 
     };
 
     _getMovieInfo (movie, imagePath) {
-        //const { movieInModalWindow } = this.state;
         this.isMovieInWishList(movie);
 
         this.setState(() => ({ 
@@ -54,7 +53,6 @@ export default class Content extends Component {
             imagePath 
         }));
 
-        // this.isMovieInWishList();
         this.triggerModalWindow(movie);
     }
 
@@ -89,9 +87,19 @@ export default class Content extends Component {
                 isMovieIncludedToWishList: true
             });
         }
-        // dont know how to update state ... so 
-        // this.isMovieInWishList(movie);     
-       
+    }
+
+    _deleteMovieFromWishList (movieId) {
+        const wishList = JSON.parse(localStorage.getItem('wishList'));
+        console.log(`wishList in deketeion before filtering -- ${wishList}`);
+        wishList.filter((movie) => movie.id !== id);
+        console.log(`wishList in deketeion after filtering -- ${wishList}`);
+        
+        /* this.setState(() => {
+            dataUpdate: true
+        }); */
+        localStorage.setItem('wishList', JSON.stringify(wishList));
+
     }
 
     _isMovieInWishList (movie) {
@@ -100,9 +108,15 @@ export default class Content extends Component {
         if (interimList) {
             const ifMovieIsInWishList = interimList.find((item) => item.id === movie.id);
             console.log(`ifMovieIsInWishList ${ifMovieIsInWishList}`);
-            this.setState(() => ({
-                isMovieIncludedToWishList: ifMovieIsInWishList
-            }));
+            if (ifMovieIsInWishList) {
+                this.setState(() => ({
+                    isMovieIncludedToWishList: true
+                }));
+            } else {
+                this.setState(() => ({
+                    isMovieIncludedToWishList: false
+                }));
+            }            
         }
     }
 
@@ -156,7 +170,10 @@ export default class Content extends Component {
         } = this.props;
 
         const wishListTrigger = wishList
-            ? <WishList wishList = { wishList } />
+            ? <WishList 
+                wishList = { wishList }
+                deleteMovieFromWishList = { this.deleteMovieFromWishList }                
+            />
             : null;
 
         const moviesListGotBySearchToRender = moviesListGotBySearch.map(

@@ -59,4 +59,14 @@
         display: inline-block;
     }
 
+    .delete {
+
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        color: red;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
 }
