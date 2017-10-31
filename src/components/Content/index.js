@@ -90,20 +90,10 @@ export default class Content extends Component {
     }
 
     _deleteMovieFromWishList (movieId) {
-
         const wishListCurrent = JSON.parse(localStorage.getItem('wishList'));
 
-        console.log(`Content --> ${wishListCurrent}`);
-        console.log(`Content --> ${movieId}`);
-
         const wishList = wishListCurrent.filter((movie) => movie.id !== movieId);
-        
-        /*wishList.filter((movie) => {
-            console.log(`movieId ==> ${movie.id}`);
 
-            return movie.id !== movieId;
-        });*/
-        console.log(`Content --> ${JSON.stringify(wishList)}`);
         this.setState(() => ({ dataUpdate: true }));
 
         localStorage.setItem('wishList', JSON.stringify(wishList));
