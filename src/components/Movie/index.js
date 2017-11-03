@@ -10,7 +10,6 @@ import image from '../../theme/assets/404.jpg';
 
 export default class Movie extends Component {
     static propTypes = {
-        adult:         PropTypes.bool.isRequired,
         getMovieInfo:  PropTypes.func.isRequired,
         id:            PropTypes.number.isRequired,
         overview:      PropTypes.string.isRequired,

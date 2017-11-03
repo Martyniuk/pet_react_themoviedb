@@ -171,7 +171,6 @@ export default class Content extends Component {
                 release_date
             }) => (
                 <Movie
-                    adult = { adult }
                     backdrop_path = { backdrop_path }
                     getMovieInfo = { this.getMovieInfo }
                     id = { id }
@@ -210,7 +209,6 @@ export default class Content extends Component {
 
                 /*CCSTransition*/
                 <Movie
-                    adult = { adult }
                     backdrop_path = { backdrop_path }
                     getMovieInfo = { this.getMovieInfo }
                     id = { id }
@@ -241,7 +239,6 @@ export default class Content extends Component {
 
                 /*CCSTransition*/
                 <Movie
-                    adult = { adult }
                     backdrop_path = { backdrop_path }
                     getMovieInfo = { this.getMovieInfo }
                     id = { id }
