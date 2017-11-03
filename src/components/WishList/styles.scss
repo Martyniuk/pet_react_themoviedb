@@ -2,14 +2,14 @@
 @import '../../theme/animations';
 
 .wish_list {
-    position: absolute;
-    top: 0.3%;
-    left: 2%;
+    display: inline-table;
     line-height: 1;
     background-color: cornsilk;
     padding: 0 20px;
     border: 1px solid #fff;
     border-radius: 14px;
+    position: fixed;
+    width: 335px;
 
     .title {
         font-family: cursive;
