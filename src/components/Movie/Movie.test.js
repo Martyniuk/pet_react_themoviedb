@@ -16,6 +16,7 @@ const result = shallow(<Movie
         popularity = { 23 }
         release_date = { '2017-09-20' }
         title = { 'mne b takuiu' }
+        poster_path = { '/6aUWe0GSl69wMTSWWexsorMIvwU.jpg' }
         vote_average = { 6.5 }
                         />, {
                             context: {
@@ -31,13 +32,22 @@ describe('Movie component', () => {
         expect(result.find('section').hasClass('movie'));
     })
     test('should have 1 \'a\' element', () => {
-        expect(result.find('a')).toHaveLength(1);
+        expect(result.find('a')).toHaveLength(2);
     });
+    test('should have 1 \'img\' element', () => {
+        expect(result.find('img')).toHaveLength(1);
+    })
     test('should have 1 \'div\' element', () => {
         expect(result.find('div')).toHaveLength(1);
     });
     test('Div element should have .title className', () => {
         expect(result.find('div').hasClass('title'));
-    })
-
+    });
+    test('Movie function _imagePathCreation has to be a function', () => {
+        expect(typeof new Movie()._imagePathCreation).toBe('function');
+    });
+    /* test('Movie function _imagePathCreation has to return a string', () => {
+        const result = new Movie()._imagePathCreation();
+        expect(typeof result).toBe(`string`);
+    }); */
 });
