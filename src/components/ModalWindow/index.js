@@ -25,6 +25,7 @@ export default class ModalWindow extends Component {
 
     constructor () {
         super();
+
         this.handleAdditionMovieToWishList = ::this._handleAdditionMovieToWishList;
         this.handleClosingOfModalWindow = ::this._handleClosingOfModalWindow;
         this.modalWindowTriggerCheck = ::this._modalWindowTriggerCheck;
