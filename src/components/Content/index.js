@@ -102,11 +102,9 @@ export default class Content extends Component {
     _isMovieInWishList (movie) {
         const interimList = JSON.parse(localStorage.getItem('wishList'));
 
-        //console.log(`interimList ${interimList}`);
-
         if (interimList) {
             const ifMovieIsInWishList = interimList.find((item) => item.id === movie.id);
-            console.log(`ifMovieIsInWishList ${ifMovieIsInWishList}`);
+
             if (ifMovieIsInWishList) {
                 this.setState(() => ({
                     isMovieIncludedToWishList: true
@@ -257,8 +255,32 @@ export default class Content extends Component {
         return (
             <section className = { Styles.content } >
                 { modalWindowToShow }
-                { wishListTrigger }
-                { advert }
+                <div className = { Styles.content_header_divider }>
+                    <div className = { Styles.side_bar }>
+                        { wishListTrigger }
+                    </div>
+                    <div className = { Styles.content }>
+                        <div>
+                            { advert }
+                        </div>
+                        <h4 className = { Styles.title }>The Most Popular</h4>
+                        <div className = { Styles.content_list }>
+                            { popularMoviesListToRender }
+                        </div>
+                        <h5 className = { Styles.title }>Latest Arrived</h5>
+                        <div className = { Styles.content_list }>
+                            { latestMoviesListToRender }
+                        </div>
+                    </div>
+                </div>
+                {/*<div className = { Styles.content_header_divider }>
+                    <div className = { Styles.side_bar }>
+                        { wishListTrigger }
+                    </div>
+                    <div className = { Styles.content_list }>
+                        { advert }
+                    </div>
+                </div>
                 <h4 className = { Styles.title }>The Most Popular</h4>
                 <div className = { Styles.content_list }>
                     { popularMoviesListToRender }
@@ -266,7 +288,7 @@ export default class Content extends Component {
                 <h5 className = { Styles.title }>Latest Arrived</h5>
                 <div className = { Styles.content_list }>
                     { latestMoviesListToRender }
-                </div>
+                </div>*/}
             </section>
         );
     }

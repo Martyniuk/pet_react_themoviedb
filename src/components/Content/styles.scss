@@ -14,7 +14,7 @@
     font-variant: normal;
     font-weight: 500;
     line-height: 26.4px;
-    &:hover{
+    &:hover {
       text-decoration: underline;
       cursor: default;
     }
@@ -24,5 +24,16 @@
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    width: 80%;
+  }
+
+  .side_bar {
+    width: 300px;
+    margin: 40px 0 0 20px;
+  }
+
+  .content_header_divider {
+    display: flex;
+    justify-content: space-between;
   }
 }
