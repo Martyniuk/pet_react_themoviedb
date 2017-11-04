@@ -19,12 +19,6 @@ describe('App container:', () => {
     test('\'section\' element Should have .app class', () => {
         expect(result.find('section').hasClass('app'));
     });
-    test('Sould have one \'Catcher\' component', () => {
-        expect(result.find('Catcher')).toHaveLength(1);
-    });
-    test('Sould have one \'Catcher\' component', () => {
-        expect(result.find('Main')).toHaveLength(1);
-    });
     test('Function \'getChildContext\' is a function', () => {
         expect(typeof result.instance().getChildContext).toBe('function');
     });

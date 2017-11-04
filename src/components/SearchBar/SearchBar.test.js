@@ -1,16 +1,18 @@
 // Core
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
+import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 // Components
 import SearchBar from './';
-import Content from './';
 import { options } from '../../containers/App';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const { apiToGetMoviesBySearch, apiToGetImageForMovie, apiToGetMostPopularMovies } = options;
+const {
+    apiToGetMoviesBySearch,
+    apiToGetMostPopularMovies,
+    apiToGetTheNewestMovies } = options;
 
 const message = 'Hello World';
 
@@ -29,19 +31,12 @@ const mutatedStateFetching = {
     moviesListRecentlyReleased: [],
     dataFetching:               true
 };
-const mutatedStateInput = {
-    textInputValue:             message,
-    moviesGotBySearch:          [],
-    moviesListGotByPopularity:  [],
-    moviesListRecentlyReleased: [],
-    dataFetching:               true
-};
 
-const result = shallow(<SearchBar />, {
+const result = mount(<SearchBar />, {
     context: {
         apiToGetMoviesBySearch,
         apiToGetMostPopularMovies,
-        apiToGetImageForMovie
+        apiToGetTheNewestMovies
     }
 });
 
@@ -58,7 +53,7 @@ describe('Search Bar component: ', () => {
     test('Should have 1 \'Content\' element', () => {
         expect(result.find('Content')).toHaveLength(1);
     });
-    test('Should have \'spinner\' component on \'beforeFetchinf\'', () => {
+    test('Should have \'spinner\' component on \'beforeFetching\'', () => {
         result.setState(() => ({ dataFetching: true }));
         expect(result.find('Spinner')).toHaveLength(1);
     });

@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { array, func } from 'prop-types';
 import Styles from './styles.scss';
 import {
-    Transition,
     CSSTransition,
     TransitionGroup
 } from 'react-transition-group';

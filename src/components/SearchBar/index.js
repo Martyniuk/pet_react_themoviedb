@@ -148,7 +148,7 @@ export default class SearchBar extends Component {
     }
 
     _handleContentToAppear (content) {
-        fromTo(content, 1.5, { x: 300, opacity: 0 }, {x: 0, opacity: 1.5 });
+        fromTo(content, 1.5, { x: 300, opacity: 0 }, { x: 0, opacity: 1.5 });
     }
 
     render () {

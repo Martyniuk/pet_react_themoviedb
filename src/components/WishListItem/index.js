@@ -2,16 +2,14 @@
 import React, { Component } from 'react';
 
 // instruments
-import PropTypes from 'prop-types';
+import { func, number, string } from 'prop-types';
 import Styles from './styles.scss';
-
-// components
 
 export default class WishListItem extends Component {
     static propTypes = {
-        deleteMovieFromWishList: PropTypes.func.isRequired,
-        id:                      PropTypes.number.isRequired,
-        title:                   PropTypes.string.isRequired
+        deleteMovieFromWishList: func.isRequired,
+        id:                      number.isRequired,
+        title:                   string.isRequired
     };
 
     constructor () {

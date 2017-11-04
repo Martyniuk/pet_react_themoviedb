@@ -34,7 +34,7 @@
     margin: 11px 4px;
     padding: 0 16px;
     position: absolute;
-    top: 69%;
+    top: inherit;
     right: 30%;
   }
 
@@ -51,7 +51,7 @@
     margin: 11px 4px;
     padding: 0 16px;
     position: absolute;
-    top: 69%;
+    top: inherit;
     right: 30%;
   }
 
@@ -71,18 +71,14 @@
     background-image: url("../../theme/assets/cross.png");
     background-repeat: no-repeat;
     cursor: pointer;
-    /*    transform-style: preserve-3d;
-        transition: all 1s ease-out;*/
     &:hover {
       background-position: -13px 0;
-      //transform: rotateY(180deg);
     }
   }
 
   .modal:before {
     content: '';
     position: fixed;
-    //display: none;
     background-color: rgba(0, 0, 0, 0);
     top: 0;
     left: 0;
@@ -97,7 +93,6 @@
   .modal_container {
     position: fixed;
     background-color: #fff;
-    //border: 1px solid #000;
     width: 70%;
     max-width: 400px;
     left: 50%;
