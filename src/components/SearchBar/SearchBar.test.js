@@ -1,9 +1,9 @@
 // Core
-gloval.window = {};
+global.window = {};
 import localStorage from 'mock-local-storage';
 window.localStorage = global.localStorage;
 import React from 'react';
-import Enzyme, { mount } from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 // Components
@@ -35,7 +35,7 @@ const mutatedStateFetching = {
     dataFetching:               true
 };
 
-const result = mount(<SearchBar />, {
+const result = shallow(<SearchBar />, {
     context: {
         apiToGetMoviesBySearch,
         apiToGetMostPopularMovies,
@@ -92,8 +92,5 @@ describe('Search Bar component: ', () => {
     });
     test('Function \'_handleFormToAppear\' is a function', () => {
         expect(typeof result.instance()._handleFormToAppear).toBe('function');
-    });
-    test('Function \'_handleContentToAppear\' is a function', () => {
-        expect(typeof result.instance()._handleContentToAppear).toBe('function');
     });
 });

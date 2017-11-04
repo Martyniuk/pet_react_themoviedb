@@ -28,7 +28,6 @@ export default class SearchBar extends Component {
         this.startDataFetching = ::this._startDataFetching;
         this.stopDataFetching = ::this._stopDataFetching;
         this.handleFormToAppear = ::this._handleFormToAppear;
-        this.handleContentToAppear = ::this._handleContentToAppear;
     }
 
     state = {
@@ -95,7 +94,7 @@ export default class SearchBar extends Component {
                 }));
                 console.log(`result of fetch most popular ---> ${this.state.moviesListGotByPopularity}`);
             })
-            .catch(({ message }) => console.error(`Getting of Most Popular movies processed with an Error --> ${message}`));
+            .catch(({ message }) => console.log(`Getting of Most Popular movies processed with an Error --> ${message}`));
     }
 
     _getNewestMovies () {
@@ -147,10 +146,6 @@ export default class SearchBar extends Component {
         fromTo(form, 1, { y: -200, opacity: 0 }, { y: 0, opacity: 1 });
     }
 
-    _handleContentToAppear (content) {
-        fromTo(content, 1.5, { x: 300, opacity: 0 }, { x: 0, opacity: 1.5 });
-    }
-
     render () {
         const placeholderValue = 'Search...';
 
@@ -182,17 +177,11 @@ export default class SearchBar extends Component {
                         <input type = 'submit' value = 'Search' />
                     </form>
                 </Transition>
-                <Transition
-                    appear
-                    in
-                    timeout = { 1500 }
-                    onEnter = { this.handleContentToAppear }>
-                    <Content
-                        latestMoviesList = { moviesListRecentlyReleased }
-                        mostPopularMoviesList = { moviesListGotByPopularity }
-                        moviesListGotBySearch = { moviesGotBySearch }
-                    />
-                </Transition>
+                <Content
+                    latestMoviesList = { moviesListRecentlyReleased }
+                    mostPopularMoviesList = { moviesListGotByPopularity }
+                    moviesListGotBySearch = { moviesGotBySearch }
+                />
             </section>
         );
     }
