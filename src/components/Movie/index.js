@@ -43,7 +43,7 @@ export default class Movie extends Component {
             return image;
         }
 
-        return `${apiToGetImageForMovie}/${file_size}/${poster_path}`;
+        return `${apiToGetImageForMovie}${file_size}${poster_path}`;
     }
 
     _handleGettingMovieInfo (e) {
