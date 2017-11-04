@@ -25,7 +25,7 @@ describe('WishListItem component', () => {
     test('Span element should have .delete class', () => {
         expect(result.find('li').hasClass('delete'));
     });
-    test('WishListItem component function _handleDeleteMovieFromWishList is a function', () => {
+    test('WishListItem component function \'_handleDeleteMovieFromWishList\' is a function', () => {
         expect(typeof result.instance()._handleDeleteMovieFromWishList).toBe('function');
     });
     test('Result elements of type \'Li\' should have 2 children', () => {

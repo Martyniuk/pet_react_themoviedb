@@ -31,25 +31,28 @@ export default class WishList extends Component {
 
     render () {
         const { wishList } = this.props;
+        let moviesInList = [];
 
-        const moviesInList = wishList.map(
-            (movie) => (
-                <CSSTransition
-                    classNames = { {
-                        enter:       Styles.itemInStart,
-                        enterActive: Styles.itemInEnd,
-                        exit:        Styles.itemOutStart,
-                        exitActive:  Styles.itemOutEnd
-                    } }
-                    key = { movie.id }
-                    timeout = { { enter: 700, exit: 600 } }>
-                    <WishListItem
-                        deleteMovieFromWishList = { this.deleteMovieFromWishList }
-                        id = { movie.id }
-                        title = { movie.title }
-                    />
-                </CSSTransition>
-            ));
+        if (wishList) {
+            moviesInList = wishList.map(
+                (movie) => (
+                    <CSSTransition
+                        classNames = { {
+                            enter:       Styles.itemInStart,
+                            enterActive: Styles.itemInEnd,
+                            exit:        Styles.itemOutStart,
+                            exitActive:  Styles.itemOutEnd
+                        } }
+                        key = { movie.id }
+                        timeout = { { enter: 700, exit: 600 } }>
+                        <WishListItem
+                            deleteMovieFromWishList = { this.deleteMovieFromWishList }
+                            id = { movie.id }
+                            title = { movie.title }
+                        />
+                    </CSSTransition>
+                ));
+        }
 
         return (
             <div className = { Styles.wish_list }>

@@ -1,30 +1,14 @@
 // Core
 import React from 'react';
 import Adapter from 'enzyme-adapter-react-16';
-import Enzyme, { render } from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
 
 // Components
 import WishList from './';
 
 Enzyme.configure({ adapter: new Adapter() });
 
-const result = render(<WishList deleteMovieFromWishList = { () => null } />);
-const wishList = [
-    {
-        id:           123,
-        overview:     'overview',
-        popularity:   12.2,
-        release_date: '1998-08-20',
-        title:        'title',
-        vote_average: 5.2
-    }
-];
-const moviesInList = [
-    {
-        id:    123,
-        title: 'title'
-    }
-];
+const result = shallow(<WishList deleteMovieFromWishList = { () => null } />);
 
 describe('WishList component: ', () => {
     test('WishList component should have one \'div\' element', () => {
@@ -41,5 +25,8 @@ describe('WishList component: ', () => {
     });
     test('WishList component should have one \'ol\' element', () => {
         expect(result.find('ol')).toHaveLength(1);
+    });
+    test('WishList component function \'_deleteMovieFromWishList\' is a function', () => {
+        expect(typeof result.instance()._deleteMovieFromWishList).toBe('function');
     });
 });

@@ -7,6 +7,7 @@ import { string } from 'prop-types';
 
 // Components
 import Main from '../../components/Main';
+import Catcher from '../../components/Catcher';
 
 const key = '3e9c711ebc7c13d5b3078979c12ee0ca';
 
@@ -32,9 +33,9 @@ export default class App extends Component {
     render () {
         return (
             <section className = { Styles.app }>
-                {/* catcher */}
-                <Main />
-                {/* catcher */}
+                <Catcher>
+                    <Main />
+                </Catcher>
             </section>
         );
     }

@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 // Instruments
 import { string } from 'prop-types';
 import Styles from './styles.scss';
+import { Transition } from 'react-transition-group';
+import { fromTo } from 'gsap';
 
 // Components
 import Content from '../Content';
@@ -25,6 +27,8 @@ export default class SearchBar extends Component {
         this.getNewestMovies = ::this._getNewestMovies;
         this.startDataFetching = ::this._startDataFetching;
         this.stopDataFetching = ::this._stopDataFetching;
+        this.handleFormToAppear = ::this._handleFormToAppear;
+        this.handleContentToAppear = ::this._handleContentToAppear;
     }
 
     state = {
@@ -40,12 +44,11 @@ export default class SearchBar extends Component {
         this.getNewestMovies();
     }
 
-    // try to move below to helpers folder
     _getMoviesBySearch () {
         const { textInputValue } = this.state;
 
         if (!textInputValue.trim()) {
-            throw new Error(`----> _getMoviesBySearch, ${textInputValue} is empty.`);
+            console.error(`----> _getMoviesBySearch, ${textInputValue} is empty.`);
         }
 
         const url = `${this.context.apiToGetMoviesBySearch}&query=${textInputValue}`;
@@ -64,7 +67,7 @@ export default class SearchBar extends Component {
             .then(({ results }) => {
                 this.setState(() => ({
                     moviesGotBySearch: results,
-                    dataFetching:     false
+                    dataFetching:      false
                 }));
             })
             .catch(({ message }) => console.error(`dude, some shit is happening...call your Roof --> ${message}`));
@@ -88,7 +91,7 @@ export default class SearchBar extends Component {
             .then(({ results }) => {
                 this.setState(() => ({
                     moviesListGotByPopularity: results,
-                    dataFetching:             false
+                    dataFetching:              false
                 }));
                 console.log(`result of fetch most popular ---> ${this.state.moviesListGotByPopularity}`);
             })
@@ -129,13 +132,6 @@ export default class SearchBar extends Component {
     _handleSubmit (event) {
         event.preventDefault();
 
-        const { textInputValue } = this.state;
-
-        // do we need below if, coz we are handling this error in getMoviesBySearch
-        if (!textInputValue.trim()) {
-            return;
-        }
-
         this.getMoviesBySearch();
     }
 
@@ -147,7 +143,13 @@ export default class SearchBar extends Component {
         this.setState(() => ({ dataFetching: false }));
     }
 
-    // try to implement SearchBar to appear
+    _handleFormToAppear (form) {
+        fromTo(form, 1, { y: -200, opacity: 0 }, { y: 0, opacity: 1 });
+    }
+
+    _handleContentToAppear (content) {
+        fromTo(content, 1.5, { x: 300, opacity: 0 }, {x: 0, opacity: 1.5 });
+    }
 
     render () {
         const placeholderValue = 'Search...';
@@ -165,20 +167,32 @@ export default class SearchBar extends Component {
         return (
             <section className = { Styles.searchBar }>
                 {spinner}
-                <form onSubmit = { this.handleSubmit } >
-                    <input
-                        placeholder = { placeholderValue }
-                        type = 'text'
-                        value = { textInputValue }
-                        onChange = { this.handleTextInputChange }
+                <Transition
+                    appear
+                    in
+                    timeout = { 1000 }
+                    onEnter = { this.handleFormToAppear }>
+                    <form onSubmit = { this.handleSubmit } >
+                        <input
+                            placeholder = { placeholderValue }
+                            type = 'text'
+                            value = { textInputValue }
+                            onChange = { this.handleTextInputChange }
+                        />
+                        <input type = 'submit' value = 'Search' />
+                    </form>
+                </Transition>
+                <Transition
+                    appear
+                    in
+                    timeout = { 1500 }
+                    onEnter = { this.handleContentToAppear }>
+                    <Content
+                        latestMoviesList = { moviesListRecentlyReleased }
+                        mostPopularMoviesList = { moviesListGotByPopularity }
+                        moviesListGotBySearch = { moviesGotBySearch }
                     />
-                    <input type = 'submit' value = 'Search' />
-                </form>
-                <Content
-                    latestMoviesList = { moviesListRecentlyReleased }
-                    mostPopularMoviesList = { moviesListGotByPopularity }
-                    moviesListGotBySearch = { moviesGotBySearch }
-                />
+                </Transition>
             </section>
         );
     }
