@@ -43,7 +43,7 @@ export default class SearchBar extends Component {
         this.getNewestMovies();
     }
 
-    _getMoviesBySearch () {
+    async _getMoviesBySearch () {
         const { textInputValue } = this.state;
 
         if (!textInputValue.trim()) {
@@ -54,7 +54,7 @@ export default class SearchBar extends Component {
 
         this.startDataFetching();
 
-        fetch(url, { method: 'GET' })
+        await fetch(url, { method: 'GET' })
             .then((response) => {
                 if (response.status !== 200) {
                     this.stopDataFetching();
@@ -92,7 +92,6 @@ export default class SearchBar extends Component {
                     moviesListGotByPopularity: results,
                     dataFetching:              false
                 }));
-                console.log(`result of fetch most popular ---> ${this.state.moviesListGotByPopularity}`);
             })
             .catch(({ message }) => console.log(`Getting of Most Popular movies processed with an Error --> ${message}`));
     }
@@ -102,7 +101,6 @@ export default class SearchBar extends Component {
         const url = `${this.context.apiToGetTheNewestMovies}`;
 
         this.startDataFetching();
-
         fetch(url, { method: `GET` })
             .then((response) => {
                 if (response.status !== 200) {

@@ -2,6 +2,7 @@
 global.window = {};
 import localStorage from 'mock-local-storage';
 window.localStorage = global.localStorage;
+
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -19,6 +20,17 @@ const {
 
 const message = 'Hello World';
 
+const results = [1, 2, 3];
+
+const response = {
+    status: 200,
+    json:   () => ({ results })
+};
+
+window.fetch = jest.fn().mockImplementation(() => {
+    return Promise.resolve(response);
+});
+
 const state = {
     textInputValue:             '',
     moviesGotBySearch:          [],
@@ -27,7 +39,7 @@ const state = {
     dataFetching:               false
 };
 
-const mutatedStateFetching = {
+const mutatedStateSpinner = {
     textInputValue:             '',
     moviesGotBySearch:          [],
     moviesListGotByPopularity:  [],
@@ -69,6 +81,11 @@ describe('Search Bar component: ', () => {
     test('Function \'_getNewestMovies\' is a function', () => {
         expect(typeof result.instance()._getNewestMovies).toBe('function');
     });
+    test('Fetching newest', () => {
+        result.instance()._getNewestMovies();
+        expect(result.state().moviesListRecentlyReleased).toEqual(results);
+    });
+
     test('Function \'_handleTextInputChange\' is a function', () => {
         expect(typeof result.instance()._handleTextInputChange).toBe('function');
     });
@@ -80,7 +97,7 @@ describe('Search Bar component: ', () => {
     });
     test('Function \'_startDataFetching\' should change dataFetching state to true', () => {
         result.setState(() => ({ dataFetching: true }));
-        expect(result.state()).toEqual(mutatedStateFetching);
+        expect(result.state().dataFetching).toEqual(mutatedStateSpinner.dataFetching);
     });
     test('Function \'_stopDataFetching\' is a function', () => {
         expect(typeof result.instance()._stopDataFetching).toBe('function');
@@ -88,7 +105,7 @@ describe('Search Bar component: ', () => {
     test('Function \'_stopDataFetching\' should change dataFetching state to false', () => {
         result.setState(() => ({ dataFetching: true }));
         result.instance()._stopDataFetching();
-        expect(result.state()).toEqual(state);
+        expect(result.state().dataFetching).toEqual(state.dataFetching);
     });
     test('Function \'_handleFormToAppear\' is a function', () => {
         expect(typeof result.instance()._handleFormToAppear).toBe('function');
