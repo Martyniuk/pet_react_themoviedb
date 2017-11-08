@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  height: 100px;
+  background-color: #d8edd7;
+  width: 100%;
+  margin: 0 auto;
+  border: 2px dotted grey;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+
+  .header_logo {
+    font-family: 'Open-Sans', sans-serif;
+    font-size: large;
+    letter-spacing: 3px;
+    font-weight: 900;
+    transition: letter-spacing 2s;
+    &:hover {
+      letter-spacing: 5px;
+      cursor: default;
+    }
+  }
+}

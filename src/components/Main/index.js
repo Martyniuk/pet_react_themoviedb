@@ -6,15 +6,17 @@ import Styles from './styles.scss';
 
 // components
 import SearchBar from '../SearchBar';
+import Header from '../Header';
 
 export default class Main extends Component {
     render () {
         return (
-            <section className = { Styles.main }>
+            <div className = { Styles.main }>
+                <Header />
                 <div>
                     <SearchBar />
                 </div>
-            </section>
+            </div>
         );
     }
 }

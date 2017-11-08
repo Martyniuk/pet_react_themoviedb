@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 
 // Instruments
-import Styles from './styles.scss';
 import { string } from 'prop-types';
 
 // Components
@@ -30,10 +29,6 @@ export default class App extends Component {
     }
 
     render () {
-        return (
-            <section className = { Styles.app }>
-                <Main />
-            </section>
-        );
+        return <Main />;
     }
 }

@@ -141,7 +141,7 @@ export default class SearchBar extends Component {
     }
 
     _handleFormToAppear (form) {
-        fromTo(form, 1, { y: -200, opacity: 0 }, { y: 0, opacity: 1 });
+        fromTo(form, 3, { y: -400, opacity: 0 }, { y: 0, opacity: 3 });
     }
 
     render () {
@@ -163,7 +163,7 @@ export default class SearchBar extends Component {
                 <Transition
                     appear
                     in
-                    timeout = { 1000 }
+                    timeout = { 3000 }
                     onEnter = { this.handleFormToAppear }>
                     <form onSubmit = { this.handleSubmit } >
                         <input

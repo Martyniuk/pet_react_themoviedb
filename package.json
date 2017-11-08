@@ -27,6 +27,7 @@
     "file-loader": "0.11.2",
     "fs-extra": "3.0.1",
     "gsap": "^1.20.2",
+    "hover.css": "^2.2.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "^21.2.1",
     "moment": "^2.18.1",
