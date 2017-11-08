@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 // Instruments
 import { string } from 'prop-types';
+import Moment from 'moment';
 
 // Components
 import Main from '../../components/Main';

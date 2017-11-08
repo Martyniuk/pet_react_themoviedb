@@ -49,27 +49,25 @@ export default class SearchBar extends Component {
         if (!textInputValue.trim()) {
             console.error(`----> _getMoviesBySearch, ${textInputValue} is empty.`);
         }
+        try {
+            const url = `${this.context.apiToGetMoviesBySearch}&query=${textInputValue}`;
 
-        const url = `${this.context.apiToGetMoviesBySearch}&query=${textInputValue}`;
+            this.startDataFetching();
+            const response = await fetch(url, {method: 'GET'});
 
-        this.startDataFetching();
+            if (response.status !== 200) {
+                this.stopDataFetching();
+                throw new Error(`Status of request for getting Movies by ${textInputValue} is ${response.status}`);
+            }
+            const {results} = await response.json();
 
-        await fetch(url, { method: 'GET' })
-            .then((response) => {
-                if (response.status !== 200) {
-                    this.stopDataFetching();
-                    throw new Error(`Status of request for getting Movies by ${textInputValue} is ${response.status}`);
-                }
-
-                return response.json();
-            })
-            .then(({ results }) => {
-                this.setState(() => ({
-                    moviesGotBySearch: results,
-                    dataFetching:      false
-                }));
-            })
-            .catch(({ message }) => console.error(`dude, some shit is happening...call your Roof --> ${message}`));
+            this.setState(() => ({
+                moviesGotBySearch: results,
+                dataFetching: false
+            }));
+        } catch ({ message }) {
+            console.log(`Getting List of Movies by search pocessed with an Error --> ${message}`);
+        }
     }
 
     _getMostPopularMovies () {
