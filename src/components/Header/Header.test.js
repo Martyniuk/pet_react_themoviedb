@@ -23,4 +23,12 @@ describe('Header component:', () => {
     test('Header component should have one \'p\' element', () => {
         expect(result.find('p')).toHaveLength(1);
     });
+    test('Function \'_handleHeaderOnEnter\' should be a function type', () => {
+        expect(typeof result.instance()._handleHeaderOnEnter).toBe('function');
+    });
+    test('Function \'_handleHeaderOnEnter\' return should be undefined', () => {
+        const header = 'string';
+
+        expect(typeof result.instance()._handleHeaderOnEnter(header)).toBe('undefined');
+    });
 });
