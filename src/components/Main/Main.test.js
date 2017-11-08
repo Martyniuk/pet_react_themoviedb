@@ -13,16 +13,16 @@ Enzyme.configure({ adapter: new Adapter() });
 const result = shallow(<Main />);
 
 describe('Main component:', () => {
-    test('Should have one \'section\' element', () => {
-        expect(result.find('section')).toHaveLength(1);
+    test('Should have two \'div\' element', () => {
+        expect(result.find('div')).toHaveLength(2);
     });
-    test('\'section\' element Should have .main class', () => {
-        expect(result.find('section').hasClass('main'));
+    test('First \'div\' element Should have .main class', () => {
+        expect(result.find('div').at(0).hasClass('main'));
     });
-    test('Should have one \'div\' element', () => {
-        expect(result.find('div')).toHaveLength(1);
-    });
-    test('Sould have one \'SearchBar\' component', () => {
+    test('Should have one \'SearchBar\' component', () => {
         expect(result.find('SearchBar')).toHaveLength(1);
+    });
+    test('Should have one \'Header\' component', () => {
+        expect(result.find('Header')).toHaveLength(1);
     });
 });
