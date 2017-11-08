@@ -1,13 +1,14 @@
 .header {
   display: flex;
   height: 100px;
+  width: 99.7%;
   background-color: #d8edd7;
-  width: 100%;
   margin: 0 auto;
   border: 2px dotted grey;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
+
 
   .header_logo {
     font-family: 'Open-Sans', sans-serif;
