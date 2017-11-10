@@ -88,7 +88,7 @@ export default class Main extends Component {
 
         return (
             <div className = { Styles.main }>
-                <div className = { Styles.wrapper }>
+                <div>
                     <Header />
                     <div className = { Styles.search_bar_wrap }>
                         { buttonList }
