@@ -28,7 +28,7 @@ export default class WishListItem extends Component {
         const { title } = this.props;
 
         return (
-            <li>
+            <li className = { Styles.wishList_item }>
                 { title }
                 <span className = { Styles.delete } onClick = { this.handleMovieDeletionFromWishList }>[x]</span>
             </li>

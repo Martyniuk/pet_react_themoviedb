@@ -2,48 +2,49 @@
 import React, { Component } from 'react';
 
 // Instruments
-import { string } from 'prop-types';
+import { func } from 'prop-types';
 import Styles from './styles.scss';
 import { Transition } from 'react-transition-group';
 import { fromTo } from 'gsap';
 
 // Components
-import Content from '../Content';
-import Spinner from '../Spinner';
+//import Content from '../Content';
+//import Spinner from '../Spinner';
 
 export default class SearchBar extends Component {
-    static contextTypes = {
-        apiToGetMoviesBySearch:    string.isRequired,
-        apiToGetMostPopularMovies: string.isRequired,
-        apiToGetTheNewestMovies:   string.isRequired
+    static propTypes = {
+        //apiToGetMoviesBySearch:    string.isRequired,
+        //apiToGetMostPopularMovies: string.isRequired,
+        //apiToGetTheNewestMovies:   string.isRequired
+        getMoviesBySearch: func.isRequired
     };
     constructor () {
         super();
 
         this.handleSubmit = ::this._handleSubmit;
         this.handleTextInputChange = ::this._handleTextInputChange;
-        this.getMoviesBySearch = ::this._getMoviesBySearch;
-        this.getMostPopularMovies = ::this._getMostPopularMovies;
-        this.getNewestMovies = ::this._getNewestMovies;
-        this.startDataFetching = ::this._startDataFetching;
-        this.stopDataFetching = ::this._stopDataFetching;
+        //this.getMoviesBySearch = ::this._getMoviesBySearch;
+        //this.getMostPopularMovies = ::this._getMostPopularMovies;
+        //this.getNewestMovies = ::this._getNewestMovies;
+        //this.startDataFetching = ::this._startDataFetching;
+        //this.stopDataFetching = ::this._stopDataFetching;
         this.handleFormToAppear = ::this._handleFormToAppear;
     }
 
     state = {
         textInputValue:             '',
-        moviesGotBySearch:          [],
-        moviesListGotByPopularity:  [],
-        moviesListRecentlyReleased: [],
-        dataFetching:               false
+        //moviesGotBySearch:          [],
+        //moviesListGotByPopularity:  [],
+        //moviesListRecentlyReleased: [],
+        //dataFetching:               false
     };
 
-    componentDidMount () {
+    /* componentDidMount () {
         this.getMostPopularMovies();
         this.getNewestMovies();
-    }
+    } */
 
-    async _getMoviesBySearch () {
+/*     async _getMoviesBySearch () {
         const { textInputValue } = this.state;
 
         if (!textInputValue.trim()) {
@@ -59,7 +60,7 @@ export default class SearchBar extends Component {
                 this.stopDataFetching();
                 throw new Error(`Status of request for getting Movies by ${textInputValue} is ${response.status}`);
             }
-            const {results} = await response.json();
+            const { results } = await response.json();
 
             this.setState(() => ({
                 moviesGotBySearch: results,
@@ -68,9 +69,9 @@ export default class SearchBar extends Component {
         } catch ({ message }) {
             console.log(`Getting List of Movies by search pocessed with an Error --> ${message}`);
         }
-    }
+    } */
 
-    _getMostPopularMovies () {
+/*     _getMostPopularMovies () {
 
         const url = `${this.context.apiToGetMostPopularMovies}`;
 
@@ -115,10 +116,9 @@ export default class SearchBar extends Component {
                 }));
             })
             .catch(({ message }) => console.error(`Getting of Newest Movies processed with an Error --> ${message}`));
-    }
+    } */
 
     _handleTextInputChange (event) {
-
         const textInputValue = event.target.value;
 
         this.setState(() => ({ textInputValue }));
@@ -126,17 +126,18 @@ export default class SearchBar extends Component {
 
     _handleSubmit (event) {
         event.preventDefault();
+        const { textInputValue } = this.state;
 
-        this.getMoviesBySearch();
+        this.props.getMoviesBySearch(textInputValue);
     }
 
-    _startDataFetching () {
+/*     _startDataFetching () {
         this.setState(() => ({ dataFetching: true }));
     }
 
     _stopDataFetching () {
         this.setState(() => ({ dataFetching: false }));
-    }
+    } */
 
     _handleFormToAppear (form) {
         fromTo(form, 3, { y: -400, opacity: 0 }, { y: 0, opacity: 3 });
@@ -147,17 +148,17 @@ export default class SearchBar extends Component {
 
         const {
             textInputValue,
-            moviesGotBySearch,
+/*             moviesGotBySearch,
             moviesListGotByPopularity,
             moviesListRecentlyReleased,
-            dataFetching
+            dataFetching */
         } = this.state;
 
-        const spinner = dataFetching ? <Spinner /> : null;
+        //const spinner = dataFetching ? <Spinner /> : null;
 
         return (
             <section className = { Styles.searchBar }>
-                {spinner}
+               {/*  {spinner} */}
                 <Transition
                     appear
                     in
@@ -173,11 +174,11 @@ export default class SearchBar extends Component {
                         <input type = 'submit' value = 'Search' />
                     </form>
                 </Transition>
-                <Content
+{/*                 <Content
                     latestMoviesList = { moviesListRecentlyReleased }
                     mostPopularMoviesList = { moviesListGotByPopularity }
                     moviesListGotBySearch = { moviesGotBySearch }
-                />
+                /> */}
             </section>
         );
     }

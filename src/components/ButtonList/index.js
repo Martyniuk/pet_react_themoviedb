@@ -12,20 +12,20 @@ export default class ButtonList extends Component {
     };
     constructor () {
         super();
-        this.handleNewest = ::this._handleNewest;
-        this.handlePopular = ::this._handlePopular;
+        this.handleNewestAppear = ::this._handleNewestAppear;
+        this.handlePopularAppear = ::this._handlePopularAppear;
     }
-    _handleNewest () {
+    _handleNewestAppear () {
         this.props.getNewestMovies();
     }
-    _handlePopular () {
+    _handlePopularAppear () {
         this.props.getPopularMovies();
     }
     render () {
         return (
             <ul className = { Styles.button_list }>
-                <li onClick = { this.handlePopular }>Popular</li>
-                <li onClick = { this.handlePopular }>Newest</li>
+                <li className = { Styles.button_list_item } onClick = { this.handlePopularAppear }>Popular</li>
+                <li className = { Styles.button_list_item } onClick = { this.handleNewestAppear }>Newest</li>
             </ul>
         );
     }

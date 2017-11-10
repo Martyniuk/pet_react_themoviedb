@@ -1,20 +1,19 @@
 
-li {
+.wishList_item {
   counter-increment: item;
   margin-bottom: 5px;
   font-style: italic;
   line-height: 1.3em;
-}
-
-li:before {
-  margin-right: 10px;
-  content: counter(item);
-  background: lightblue;
-  border-radius: 100%;
-  color: white;
-  width: 1.2em;
-  text-align: center;
-  display: inline-block;
+  &:before {
+    margin-right: 10px;
+    content: counter(item);
+    background: lightblue;
+    border-radius: 100%;
+    color: white;
+    width: 1.2em;
+    text-align: center;
+    display: inline-block;
+  }
 }
 
 .delete {
