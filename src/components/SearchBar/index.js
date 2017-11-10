@@ -13,6 +13,7 @@ import { fromTo } from 'gsap';
 
 export default class SearchBar extends Component {
     static propTypes = {
+        // text for commit
         //apiToGetMoviesBySearch:    string.isRequired,
         //apiToGetMostPopularMovies: string.isRequired,
         //apiToGetTheNewestMovies:   string.isRequired
