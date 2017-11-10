@@ -12,15 +12,16 @@ import WishList from '../WishList';
 
 export default class Content extends Component {
     static propTypes = {
-        latestMoviesList:      array.isRequired,
-        mostPopularMoviesList: array.isRequired,
-        moviesListGotBySearch: array
+        moviesList: array.isRequired
+        //latestMoviesList:      array.isRequired,
+        //mostPopularMoviesList: array.isRequired,
+        //moviesListGotBySearch: array
     };
-    static defaultProps = {
+/*     static defaultProps = {
         moviesListGotBySearch: [],
         mostPopularMoviesList: [],
         latestMoviesList:      []
-    };
+    }; */
 
     constructor () {
         super();
@@ -38,28 +39,25 @@ export default class Content extends Component {
         movieInModalWindow:        {},
         imagePath:                 '',
         wishListTrigger:           false,
-        isMovieIncludedToWishList: false,
+        isMovieInWishList:         false,
         dataUpdate:                false
     };
 
-    _getMovieInfo (movie, imagePath) {
+   async _getMovieInfo (movie, imagePath) {
         this.isMovieInWishList(movie);
         this.setState(() => ({
             movieInModalWindow: movie,
             imagePath
         }));
-        this.triggerModalWindow(movie);
+        await this.triggerModalWindow(movie);
     }
-
     _triggerModalWindow (movie) {
         this.isMovieInWishList(movie);
         this.setState(() => ({ isModalWindowTriggered: true }));
     }
-
     _closeModalWindow () {
         this.setState(() => ({ isModalWindowTriggered: false }));
     }
-
     _addMovieToWishList (movie) {
         this.isMovieInWishList(movie);
         const { isMovieIncludedToWishList } = this.state;
@@ -78,7 +76,6 @@ export default class Content extends Component {
             this.setState(() => ({ isMovieIncludedToWishList: false }));
         }
     }
-
     _deleteMovieFromWishList (movieId) {
         const wishListCurrent = JSON.parse(localStorage.getItem('wishList'));
 
@@ -87,7 +84,6 @@ export default class Content extends Component {
         this.setState(() => ({ dataUpdate: true }));
         localStorage.setItem('wishList', JSON.stringify(wishList));
     }
-
     _isMovieInWishList (movie) {
         const interimList = JSON.parse(localStorage.getItem('wishList'));
 
@@ -132,11 +128,8 @@ export default class Content extends Component {
                 />
             )
             : null;
-        const {
-            moviesListGotBySearch,
-            mostPopularMoviesList,
-            latestMoviesList
-        } = this.props;
+
+        const { moviesList } = this.props;
 
         const wishListTrigger = wishList
             ? <WishList
@@ -145,7 +138,7 @@ export default class Content extends Component {
             />
             : null;
 
-        const moviesListGotBySearchToRender = moviesListGotBySearch.map(
+        /* const moviesListGotBySearchToRender = moviesListGotBySearch.map(
             ({
                 id,
                 vote_average,
@@ -169,15 +162,15 @@ export default class Content extends Component {
                     vote_average = { vote_average }
                 />
             )
-        );
+        ); */
 
-        const advert = moviesListGotBySearch.length === 0
+/*         const advert = moviesListGotBySearch.length === 0
             ? <h3 className = { Styles.title } >Oi, Your Advert can be Here!!</h3>
             : <div className = { Styles.content }>
                 <h3 className = { Styles.title }>Content of Movies</h3>
                 <span className = { Styles.content_list }>{ moviesListGotBySearchToRender }</span>
-            </div>;
-        const popularMoviesListToRender = mostPopularMoviesList.map(
+            </div>; */
+ /*        const popularMoviesListToRender = mostPopularMoviesList.map(
             ({
                 id,
                 vote_average,
@@ -200,9 +193,9 @@ export default class Content extends Component {
                     title = { title }
                     vote_average = { vote_average }
                 />
-            ));
+            )); */
 
-        const latestMoviesListToRender = latestMoviesList.map(
+        const moviesListToRender = moviesList.map(
             ({
                 id,
                 vote_average,
@@ -235,17 +228,20 @@ export default class Content extends Component {
                         { wishListTrigger }
                     </div>
                     <div className = { Styles.content }>
-                        <div>
-                            { advert }
+                        <div className = { Styles.content_list }>
+                            { moviesListToRender }
                         </div>
-                        <h4 className = { Styles.title }>The Most Popular</h4>
+{/*                         <div>
+                            { advert }
+                        </div> */}
+                        {/* <h4 className = { Styles.title }>The Most Popular</h4>
                         <div className = { Styles.content_list }>
                             { popularMoviesListToRender }
                         </div>
                         <h5 className = { Styles.title }>Latest Arrived</h5>
                         <div className = { Styles.content_list }>
                             { latestMoviesListToRender }
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>
