@@ -7,21 +7,21 @@ import Styles from './styles.scss';
 
 export default class WishListItem extends Component {
     static propTypes = {
-        deleteMovieFromWishList: func.isRequired,
-        id:                      number.isRequired,
-        title:                   string.isRequired
+        deleteFromWishList: func.isRequired,
+        id:                 number.isRequired,
+        title:              string.isRequired
     };
-
     constructor () {
         super();
-        this.handleMovieDeletionFromWishList = ::this._handleDeleteMovieFromWishList;
+        this.handleDeletionFromWishList = ::this._handleDeleteFromWishList;
     }
 
-    _handleDeleteMovieFromWishList (e) {
+    _handleDeleteFromWishList (e) {
         e.preventDefault();
-        const { deleteMovieFromWishList, id } = this.props;
+        const { deleteFromWishList, id } = this.props;
 
-        deleteMovieFromWishList(id);
+        console.log(`deleteFromWishList`);
+        deleteFromWishList(id);
     }
 
     render () {
@@ -30,7 +30,7 @@ export default class WishListItem extends Component {
         return (
             <li className = { Styles.wishList_item }>
                 { title }
-                <span className = { Styles.delete } onClick = { this.handleMovieDeletionFromWishList }>[x]</span>
+                <span className = { Styles.delete } onClick = { this.handleDeletionFromWishList }>[x]</span>
             </li>
         );
     }
