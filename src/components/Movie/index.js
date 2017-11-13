@@ -10,16 +10,15 @@ import image from '../../theme/assets/404.jpg';
 
 export default class Movie extends Component {
     static propTypes = {
-        checkMovieInWishList: PropTypes.func.isRequired,
-        getMovieInfo:         PropTypes.func.isRequired,
-        id:                   PropTypes.number.isRequired,
-        overview:             PropTypes.string.isRequired,
-        popularity:           PropTypes.number.isRequired,
-        release_date:         PropTypes.string.isRequired,
-        title:                PropTypes.string.isRequired,
-        vote_average:         PropTypes.number.isRequired,
-        backdrop_path:        PropTypes.string,
-        poster_path:          PropTypes.string
+        getMovieInfo:  PropTypes.func.isRequired,
+        id:            PropTypes.number.isRequired,
+        overview:      PropTypes.string.isRequired,
+        popularity:    PropTypes.number.isRequired,
+        release_date:  PropTypes.string.isRequired,
+        title:         PropTypes.string.isRequired,
+        vote_average:  PropTypes.number.isRequired,
+        backdrop_path: PropTypes.string,
+        poster_path:   PropTypes.string
     };
 
     static contextTypes = {
@@ -32,7 +31,9 @@ export default class Movie extends Component {
         this.handleGettingMovieInfo = ::this._handleGettingMovieInfo;
         this.isMovieInWishList = ::this._isMovieInWishList;
     }
-
+    state = {
+        inWishList: false
+    };
     _imagePathCreation () {
         const { apiToGetImageForMovie } = this.context;
 
@@ -48,25 +49,27 @@ export default class Movie extends Component {
         return `${apiToGetImageForMovie}${file_size}${poster_path}`;
     }
 
-    _handleGettingMovieInfo (e) {
+    async _handleGettingMovieInfo (e) {
         e.preventDefault();
+        await this.isMovieInWishList();
+        const { inWishList } = await this.state;
         const { getMovieInfo } = this.props;
         const imagePath = this.imagePathCreation();
 
-        //const addMovie = this.addMovieToWishList;
-        this.props.checkMovieInWishList(this.isMovieInWishList());
-        getMovieInfo(this.props, imagePath);
+        await getMovieInfo(this.props, imagePath, inWishList);
     }
     _isMovieInWishList () {
         if (!localStorage.getItem('wishList')) {
             localStorage.setItem('wishList', JSON.stringify([]));
         }
         const interimList = JSON.parse(localStorage.getItem('wishList'));
-
         const ifMovieIsInWishList = interimList.find((item) => item.id === this.props.id);
-        // how to check if movie is in wish list and move it to Parent ==> currently it is done via method
 
-        return Boolean(ifMovieIsInWishList);
+        if (ifMovieIsInWishList) {
+            this.setState(() => ({ inWishList: true }));
+        } else {
+            this.setState(() => ({ inWishList: false }));
+        }
     }
 
     render () {
