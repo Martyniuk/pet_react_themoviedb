@@ -12,8 +12,9 @@ import WishListItem from '../WishListItem';
 
 export default class WishList extends Component {
     static propTypes = {
-        deleteMovieFromWishList: func.isRequired,
-        wishList:                array
+        //deleteMovieFromWishList: func.isRequired,
+        dataUpdate: false,
+        wishList:   array
     };
 
     constructor () {
@@ -21,11 +22,13 @@ export default class WishList extends Component {
 
         this.deleteMovieFromWishList = :: this._deleteMovieFromWishList;
     }
-
     _deleteMovieFromWishList (movieId) {
-        const { deleteMovieFromWishList } = this.props;
+        const wishListCurrent = JSON.parse(localStorage.getItem('wishList'));
 
-        deleteMovieFromWishList(movieId);
+        const wishList = wishListCurrent.filter((movie) => movie.id !== movieId);
+
+        this.setState(() => ({ dataUpdate: true }));
+        localStorage.setItem('wishList', JSON.stringify(wishList));
     }
 
     render () {

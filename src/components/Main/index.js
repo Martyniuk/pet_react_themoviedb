@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 // components
 import SearchBar from '../SearchBar';
 import Header from '../Header';
-import Content from "../Content";
-import ButtonList from "../ButtonList";
+import Content from '../Content';
+import ButtonList from '../ButtonList';
 import Spinner from '../Spinner';
 
 export default class Main extends Component {
@@ -26,11 +26,13 @@ export default class Main extends Component {
         this.stopDataFetching = ::this._stopDataFetching;
         this.startDataFetching = ::this._startDataFetching;
     }
-
     state = {
         moviesList:   [],
         dataFetching: false
     };
+    componentWillMount () {
+        this.getNewestMovies();
+    }
 
     async _getMostPopularMovies () {
         try {
@@ -56,7 +58,7 @@ export default class Main extends Component {
     }
     async _getNewestMovies () {
         try {
-            const url = `${this.state.moviesListGotByPopularity}`;
+            const url = `${this.context.apiToGetTheNewestMovies}`;
 
             this.startDataFetching();
             const response = await fetch(url, { method: 'GET' });
@@ -83,7 +85,7 @@ export default class Main extends Component {
             const url = `${this.context.apiToGetMoviesBySearch}&query=${textInputValue}`;
 
             this.startDataFetching();
-            const response = await fetch(url, {method: 'GET'});
+            const response = await fetch(url, { method: 'GET' });
 
             if (response.status !== 200) {
                 this.stopDataFetching();
@@ -92,7 +94,7 @@ export default class Main extends Component {
             const { results } = await response.json();
 
             this.setState(() => ({
-                moviesList: results,
+                moviesList:   results,
                 dataFetching: false
             }));
         } catch ({ message }) {
@@ -100,25 +102,23 @@ export default class Main extends Component {
         }
     }
     _startDataFetching () {
-        this.setState(() => ({
-            dataFetching: true
-        }));
+        this.setState(() => ({ dataFetching: true }));
     }
     _stopDataFetching () {
-        this.setState(() => ({
-            dataFetching: false
-        }));
+        this.setState(() => ({ dataFetching: false }));
     }
 
     render () {
-        const { 
+        const {
             moviesList,
             dataFetching
-         } = this.state;
-        const buttonList = <ButtonList getNewestMovies = { this.getNewestMovies } getPopularMovies = { this.getMostPopularMovies } />
+        } = this.state;
+
+        const buttonList = <ButtonList getNewestMovies = { this.getNewestMovies } getPopularMovies = { this.getMostPopularMovies } />;
+
         const spinner = dataFetching ? <Spinner /> : null;
-        
-        return(
+
+        return (
             <div className = { Styles.main }>
                 <Header />
                 { spinner }
@@ -132,30 +132,5 @@ export default class Main extends Component {
                 </div>
             </div>
         );
-
-
-
-
-        /* return (
-            <div className = { Styles.main }>
-                <div>
-                    <Header />
-                    <div className = { Styles.search_bar_wrap }>
-                        { buttonList }
-                        <SearchBar />
-                    </div>
-                    <div className = { Styles.content }>
-                        // <Content
-                        //   latestMoviesList = {}
-                        //    mostPopularMoviesList = {}
-                        // />
-                    </div>
-                    <div className = { Styles.footer }>
-                        <p>Designed By _へ__(‾◡◝ )&#62;</p>
-                    </div>
-                </div>
-            </div>
-        ); 
-       */
     }
 }

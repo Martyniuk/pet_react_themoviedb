@@ -12,9 +12,8 @@ export default class Header extends Component {
         this.handleHeaderOnEnter =::this._handleHeaderOnEnter;
     }
     _handleHeaderOnEnter (header) {
-        fromTo(header, 3, { y: 400, opacity: 0 }, { y: 0, opacity: 3 });
+        fromTo(header, 3, { y: -300, opacity: 0 }, { y: 0, opacity: 3 });
     }
-
     render () {
 
         return (

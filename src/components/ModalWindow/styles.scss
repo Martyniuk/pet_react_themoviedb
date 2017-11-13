@@ -53,6 +53,9 @@
     position: absolute;
     top: inherit;
     right: 30%;
+    &:hover {
+      cursor: default;
+    }
   }
 
   .modal_title {
