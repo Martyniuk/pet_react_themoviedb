@@ -44,6 +44,9 @@ export default class Content extends Component {
 
         await this.showModal();
     }
+    _updateContentComponent () {
+        this.forceUpdate();
+    }
     _isMovieInWishList (movie) {
         if (!localStorage.getItem('wishList')) {
             localStorage.setItem('wishList', JSON.stringify([]));
@@ -56,9 +59,6 @@ export default class Content extends Component {
         } else {
             this.setState(() => ({ isMovieInWishList: false }));
         }
-    }
-    _updateContentComponent () {
-        this.forceUpdate();
     }
     render () {
         const {
