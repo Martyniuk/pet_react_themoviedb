@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import Styles from './styles.scss';
 import image from '../../theme/assets/404.jpg';
 
-//Components
-
 export default class Movie extends Component {
     static propTypes = {
         getMovieInfo:  PropTypes.func.isRequired,
@@ -29,11 +27,7 @@ export default class Movie extends Component {
         super();
         this.imagePathCreation = ::this._imagePathCreation;
         this.handleGettingMovieInfo = ::this._handleGettingMovieInfo;
-        this.isMovieInWishList = ::this._isMovieInWishList;
     }
-    state = {
-        inWishList: false
-    };
     _imagePathCreation () {
         const { apiToGetImageForMovie } = this.context;
 
@@ -48,31 +42,13 @@ export default class Movie extends Component {
 
         return `${apiToGetImageForMovie}${file_size}${poster_path}`;
     }
-
     async _handleGettingMovieInfo (e) {
         e.preventDefault();
-        await this.isMovieInWishList();
-        const { inWishList } = await this.state;
         const { getMovieInfo } = this.props;
         const imagePath = this.imagePathCreation();
 
-        await getMovieInfo(this.props, imagePath, inWishList);
+        await getMovieInfo(this.props, imagePath);
     }
-    // move to content 
-    _isMovieInWishList () {
-        if (!localStorage.getItem('wishList')) {
-            localStorage.setItem('wishList', JSON.stringify([]));
-        }
-        const interimList = JSON.parse(localStorage.getItem('wishList'));
-        const ifMovieIsInWishList = interimList.find((item) => item.id === this.props.id);
-
-        if (ifMovieIsInWishList) {
-            this.setState(() => ({ inWishList: true }));
-        } else {
-            this.setState(() => ({ inWishList: false }));
-        }
-    }
-
     render () {
         const { title } = this.props;
         const imagePath = this.imagePathCreation();

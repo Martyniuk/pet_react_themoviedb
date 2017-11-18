@@ -19,6 +19,7 @@ export default class Content extends Component {
         this.triggerModalWindow = ::this._triggerModalWindow;
         this.closeModalWindow = ::this._closeModalWindow;
         this.getMovieInfo = ::this._getMovieInfo;
+        this.isMovieInWishList = ::this._isMovieInWishList;
     }
     state = {
         modalToShow:        false,
@@ -34,16 +35,27 @@ export default class Content extends Component {
     _closeModalWindow () {
         this.setState(() => ({ modalToShow: false }));
     }
-    async _getMovieInfo (movie, imagePath, inWishList) {
-        console.log(`getMovieInfo in Content --> ${inWishList}`);
+    async _getMovieInfo (movie, imagePath) {
+        this.isMovieInWishList(movie);
         this.setState(() => ({
             movieInModalWindow: movie,
-            isMovieInWishList:  inWishList,
             imagePath
         }));
-        console.log(`getMovieInfo in Content --> ${inWishList}`);
 
         await this.triggerModalWindow();
+    }
+    _isMovieInWishList (movie) {
+        if (!localStorage.getItem('wishList')) {
+            localStorage.setItem('wishList', JSON.stringify([]));
+        }
+        const interimList = JSON.parse(localStorage.getItem('wishList'));
+        const ifMovieIsInWishList = interimList.find((item) => item.id === movie.id);
+
+        if (ifMovieIsInWishList) {
+            this.setState(() => ({ isMovieInWishList: true }));
+        } else {
+            this.setState(() => ({ isMovieInWishList: false }));
+        }
     }
     render () {
         const {
@@ -75,7 +87,6 @@ export default class Content extends Component {
 
         const wishListTrigger = wishList
             ? <WishList
-
                 wishList = { wishList }
             />
             : null;

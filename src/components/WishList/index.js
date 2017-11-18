@@ -21,14 +21,15 @@ export default class WishList extends Component {
     state = {
         dataUpdate: false
     };
+    componentWillReceiveProps () {
+        this.forceUpdate();
+    }
     _deleteMovieFromWishList (movieId) {
         const wishListCurrent = JSON.parse(localStorage.getItem('wishList'));
         const wishList = wishListCurrent.filter((movie) => movie.id !== movieId);
 
-        console.log(`before updating state --> ${this.state.dataUpdate}`);
-        this.setState(() => ({ dataUpdate: true }));
-        console.log(`after updating state --> ${this.state.dataUpdate}`);
         localStorage.setItem('wishList', JSON.stringify(wishList));
+        this.setState(() => ({ dataUpdate: true }));
     }
 
     render () {

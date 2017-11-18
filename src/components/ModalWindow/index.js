@@ -39,7 +39,6 @@ export default class ModalWindow extends Component {
     _addMovieToWishList () {
         const { id, title } = this.props;
         const { modalCheckMovieInWishList } = this.state;
-
         const movieObject = {
             id,
             title
@@ -50,7 +49,7 @@ export default class ModalWindow extends Component {
 
             wishList = [movieObject, ...wishList];
             localStorage.setItem('wishList', JSON.stringify(wishList));
-            this.setState(() => ({ modalCheckMovieInWishList: true })); /// <===
+            this.setState(() => ({ modalCheckMovieInWishList: true }));
         } else {
             this.setState(() => ({ modalCheckMovieInWishList: false }));
         }

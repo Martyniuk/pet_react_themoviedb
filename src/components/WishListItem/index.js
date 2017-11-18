@@ -20,7 +20,6 @@ export default class WishListItem extends Component {
         e.preventDefault();
         const { deleteFromWishList, id } = this.props;
 
-        console.log(`deleteFromWishList`);
         deleteFromWishList(id);
     }
 
