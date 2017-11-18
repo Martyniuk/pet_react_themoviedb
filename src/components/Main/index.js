@@ -30,10 +30,11 @@ export default class Main extends Component {
         moviesList:   [],
         dataFetching: false
     };
+    // add movie / delete movie
+    // wishList add
     componentWillMount () {
         this.getNewestMovies();
     }
-
     async _getMostPopularMovies () {
         try {
             const url = `${this.context.apiToGetMostPopularMovies}`;

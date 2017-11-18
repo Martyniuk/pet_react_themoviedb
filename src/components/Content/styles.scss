@@ -24,14 +24,15 @@
 
   .content_list {
     display: flex;
+    flex: 0.79;
     justify-content: space-around;
     flex-wrap: wrap;
-    width: 80%;
   }
 
   .side_bar {
-    width: 20%;
-    margin: 40px 0 0 20px;
+    display: flex;
+    flex: 0.2;
+    margin-top: 7px;
   }
 
   .content_header_divider {

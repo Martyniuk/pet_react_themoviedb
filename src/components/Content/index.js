@@ -124,14 +124,13 @@ export default class Content extends Component {
         return (
             <section className = { Styles.content } >
                 { modalWindowToShow }
+
                 <div className = { Styles.content_header_divider }>
                     <div className = { Styles.side_bar }>
                         { wishListTrigger }
                     </div>
-                    <div className = { Styles.content }>
-                        <div className = { Styles.content_list }>
-                            { moviesListToRender }
-                        </div>
+                    <div className = { Styles.content_list }>
+                        { moviesListToRender }
                     </div>
                 </div>
             </section>
