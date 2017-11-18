@@ -52,14 +52,14 @@ describe('ModalWindow component:', () => {
     });
     test('Button should have \'included\'  class in case state is true', () => {
         result.setState(() => ({
-            modalWindowCheckIfMovieIsAddedToWishList: true
+            modalCheckMovieInWishList: true
         }));
         expect(result.find('button').hasClass('included'));
         expect(result.state()).toEqual(mutatedState);
     });
     test('Button should have \'add\'  class in case state is false', () => {
         result.setState(() => ({
-            modalWindowCheckIfMovieIsAddedToWishList: false
+            modalCheckMovieInWishList: false
         }));
         expect(result.find('button').hasClass('add'));
         expect(result.state()).toEqual(state);

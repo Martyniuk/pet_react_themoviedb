@@ -7,6 +7,7 @@
   flex-flow: column wrap;
   width: 100%;
   position: relative;
+  min-height: 450px;
 
   .title {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -23,14 +24,15 @@
 
   .content_list {
     display: flex;
+    flex: 0.79;
     justify-content: space-around;
     flex-wrap: wrap;
-    width: 80%;
   }
 
   .side_bar {
-    width: 300px;
-    margin: 40px 0 0 20px;
+    display: flex;
+    flex: 0.2;
+    margin-top: 7px;
   }
 
   .content_header_divider {

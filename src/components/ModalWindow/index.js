@@ -2,67 +2,76 @@
 import React, { Component } from 'react';
 
 // instrument
-import PropTypes from 'prop-types';
+import { func, number, string, bool } from 'prop-types';
 import Styles from './styles.scss';
 import image from '../../theme/assets/404.jpg';
 
-// Components
-
 export default class ModalWindow extends Component {
     static propTypes = {
-        addMovieToWishList:        PropTypes.func.isRequired,
-        closeModalWindow:          PropTypes.func.isRequired,
-        id:                        PropTypes.number.isRequired,
-        imagePath:                 PropTypes.string.isRequired,
-        isMovieIncludedToWishList: PropTypes.bool.isRequired,
-        overview:                  PropTypes.string.isRequired,
-        popularity:                PropTypes.number.isRequired,
-        release_date:              PropTypes.string.isRequired,
-        title:                     PropTypes.string.isRequired,
-        vote_average:              PropTypes.number.isRequired,
-        wishList:                  PropTypes.array
+        closeModalWindow:       func.isRequired,
+        id:                     number.isRequired,
+        imagePath:              string.isRequired,
+        isMovieInWishList:      bool.isRequired,
+        overview:               string.isRequired,
+        popularity:             number.isRequired,
+        release_date:           string.isRequired,
+        title:                  string.isRequired,
+        updateContentComponent: func.isRequired,
+        vote_average:           number.isRequired
     };
-
     constructor () {
         super();
-
-        this.handleAdditionMovieToWishList = ::this._handleAdditionMovieToWishList;
         this.handleClosingOfModalWindow = ::this._handleClosingOfModalWindow;
+        this.handleAdditionMovieToWishList = ::this._handleAdditionMovieToWishList;
+        this.addMovieToWishList = ::this._addMovieToWishList;
         this.modalWindowTriggerCheck = ::this._modalWindowTriggerCheck;
     }
-
     state = {
-        modalWindowCheckIfMovieIsAddedToWishList: false
+        modalCheckMovieInWishList: false
     };
-
     componentWillMount () {
         this.modalWindowTriggerCheck();
     }
     componentDidMount () {
         this.modalWindowTriggerCheck();
     }
+    _addMovieToWishList () {
+        const { id, title } = this.props;
+        const { modalCheckMovieInWishList } = this.state;
+        const movieObject = {
+            id,
+            title
+        };
 
-    _handleAdditionMovieToWishList () {
-        const { addMovieToWishList } = this.props;
+        if (!modalCheckMovieInWishList) {
+            let wishList = JSON.parse(localStorage.getItem('wishList'));
 
-        addMovieToWishList(this.props);
-        this.setState(() => ({ modalWindowCheckIfMovieIsAddedToWishList: true }));
+            wishList = [movieObject, ...wishList];
+            localStorage.setItem('wishList', JSON.stringify(wishList));
+            this.props.updateContentComponent();
+            this.setState(() => ({ modalCheckMovieInWishList: true }));
+        } else {
+            this.setState(() => ({ modalCheckMovieInWishList: false }));
+        }
     }
-
+    _handleAdditionMovieToWishList () {
+        this.addMovieToWishList();
+        this.setState(() => ({ modalCheckMovieInWishList: true }));
+    }
     _handleClosingOfModalWindow () {
         const { closeModalWindow } = this.props;
 
         closeModalWindow();
     }
-
     _modalWindowTriggerCheck () {
-        const { isMovieIncludedToWishList } = this.props;
+        const { isMovieInWishList } = this.props;
 
-        if (isMovieIncludedToWishList) {
-            this.setState(() => ({ modalWindowCheckIfMovieIsAddedToWishList: true }));
+        if (isMovieInWishList) {
+            this.setState(() => ({ modalCheckMovieInWishList: true }));
+        } else {
+            this.setState(() => ({ modalCheckMovieInWishList: false }));
         }
     }
-
     render () {
         const {
             imagePath,
@@ -72,10 +81,9 @@ export default class ModalWindow extends Component {
             title,
             vote_average
         } = this.props;
+        const { modalCheckMovieInWishList } = this.state;
 
-        const { modalWindowCheckIfMovieIsAddedToWishList } = this.state;
-
-        const inWishList = modalWindowCheckIfMovieIsAddedToWishList
+        const inWishList = modalCheckMovieInWishList
             ? <button disabled className = { Styles.included } >Included</button>
             : <button className = { Styles.add } onClick = { this.handleAdditionMovieToWishList }>Watch Later</button>;
 

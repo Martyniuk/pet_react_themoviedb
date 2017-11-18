@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import Styles from './styles.scss';
 import image from '../../theme/assets/404.jpg';
 
-//Components
-
 export default class Movie extends Component {
     static propTypes = {
         getMovieInfo:  PropTypes.func.isRequired,
@@ -30,7 +28,6 @@ export default class Movie extends Component {
         this.imagePathCreation = ::this._imagePathCreation;
         this.handleGettingMovieInfo = ::this._handleGettingMovieInfo;
     }
-
     _imagePathCreation () {
         const { apiToGetImageForMovie } = this.context;
 
@@ -45,15 +42,13 @@ export default class Movie extends Component {
 
         return `${apiToGetImageForMovie}${file_size}${poster_path}`;
     }
-
-    _handleGettingMovieInfo (e) {
+    async _handleGettingMovieInfo (e) {
         e.preventDefault();
         const { getMovieInfo } = this.props;
         const imagePath = this.imagePathCreation();
 
-        getMovieInfo(this.props, imagePath);
+        await getMovieInfo(this.props, imagePath);
     }
-
     render () {
         const { title } = this.props;
         const imagePath = this.imagePathCreation();

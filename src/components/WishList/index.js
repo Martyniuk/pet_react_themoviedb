@@ -12,28 +12,34 @@ import WishListItem from '../WishListItem';
 
 export default class WishList extends Component {
     static propTypes = {
-        deleteMovieFromWishList: func.isRequired,
-        wishList:                array
+        updateContentComponent: func.isRequired,
+        wishList:               array
     };
-
     constructor () {
         super();
-
-        this.deleteMovieFromWishList = :: this._deleteMovieFromWishList;
+        this.deleteMovieFromWishList = ::this._deleteMovieFromWishList;
     }
-
+    state = {
+        dataUpdate: false
+    };
+    componentWillReceiveProps () {
+        this.forceUpdate();
+    }
     _deleteMovieFromWishList (movieId) {
-        const { deleteMovieFromWishList } = this.props;
+        const wishListCurrent = JSON.parse(localStorage.getItem('wishList'));
+        const wishList = wishListCurrent.filter((movie) => movie.id !== movieId);
 
-        deleteMovieFromWishList(movieId);
+        localStorage.setItem('wishList', JSON.stringify(wishList));
+        this.props.updateContentComponent();
+        this.setState(() => ({ dataUpdate: true }));
     }
 
     render () {
         const { wishList } = this.props;
-        let moviesInList = [];
+        let tmpMoviesInList = [];
 
         if (wishList) {
-            moviesInList = wishList.map(
+            tmpMoviesInList = wishList.map(
                 (movie) => (
                     <CSSTransition
                         classNames = { {
@@ -45,7 +51,7 @@ export default class WishList extends Component {
                         key = { movie.id }
                         timeout = { { enter: 700, exit: 600 } }>
                         <WishListItem
-                            deleteMovieFromWishList = { this.deleteMovieFromWishList }
+                            deleteFromWishList = { this.deleteMovieFromWishList }
                             id = { movie.id }
                             title = { movie.title }
                         />
@@ -58,7 +64,7 @@ export default class WishList extends Component {
                 <h5 className = { Styles.title }>Ur Wish List:</h5>
                 <ol>
                     <TransitionGroup>
-                        { moviesInList }
+                        { tmpMoviesInList }
                     </TransitionGroup>
                 </ol>
             </div>
