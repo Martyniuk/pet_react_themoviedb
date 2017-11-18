@@ -1,7 +1,7 @@
 // Core
 import React, { Component } from 'react';
 // Instruments
-import { bool, array } from 'prop-types';
+import { array, func } from 'prop-types';
 import Styles from './styles.scss';
 import {
     CSSTransition,
@@ -12,7 +12,8 @@ import WishListItem from '../WishListItem';
 
 export default class WishList extends Component {
     static propTypes = {
-        wishList: array
+        updateContentComponent: func.isRequired,
+        wishList:               array
     };
     constructor () {
         super();
@@ -21,14 +22,16 @@ export default class WishList extends Component {
     state = {
         dataUpdate: false
     };
+    componentWillReceiveProps () {
+        this.forceUpdate();
+    }
     _deleteMovieFromWishList (movieId) {
         const wishListCurrent = JSON.parse(localStorage.getItem('wishList'));
         const wishList = wishListCurrent.filter((movie) => movie.id !== movieId);
 
-        console.log(`before updating state --> ${this.state.dataUpdate}`);
-        this.setState(() => ({ dataUpdate: true }));
-        console.log(`after updating state --> ${this.state.dataUpdate}`);
         localStorage.setItem('wishList', JSON.stringify(wishList));
+        this.props.updateContentComponent();
+        this.setState(() => ({ dataUpdate: true }));
     }
 
     render () {

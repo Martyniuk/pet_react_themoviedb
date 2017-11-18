@@ -16,9 +16,11 @@ export default class Content extends Component {
     };
     constructor () {
         super();
-        this.triggerModalWindow = ::this._triggerModalWindow;
-        this.closeModalWindow = ::this._closeModalWindow;
+        this.showModal = ::this._showModal;
+        this.hideModal = ::this._hideModal;
         this.getMovieInfo = ::this._getMovieInfo;
+        this.isMovieInWishList = ::this._isMovieInWishList;
+        this.updateContentComponent = ::this._updateContentComponent;
     }
     state = {
         modalToShow:        false,
@@ -27,23 +29,36 @@ export default class Content extends Component {
         wishListTrigger:    false,
         isMovieInWishList:  false
     };
-
-    _triggerModalWindow () {
+    _showModal () {
         this.setState(() => ({ modalToShow: true }));
     }
-    _closeModalWindow () {
+    _hideModal () {
         this.setState(() => ({ modalToShow: false }));
     }
-    async _getMovieInfo (movie, imagePath, inWishList) {
-        console.log(`getMovieInfo in Content --> ${inWishList}`);
+    async _getMovieInfo (movie, imagePath) {
+        this.isMovieInWishList(movie);
         this.setState(() => ({
             movieInModalWindow: movie,
-            isMovieInWishList:  inWishList,
             imagePath
         }));
-        console.log(`getMovieInfo in Content --> ${inWishList}`);
 
-        await this.triggerModalWindow();
+        await this.showModal();
+    }
+    _isMovieInWishList (movie) {
+        if (!localStorage.getItem('wishList')) {
+            localStorage.setItem('wishList', JSON.stringify([]));
+        }
+        const interimList = JSON.parse(localStorage.getItem('wishList'));
+        const ifMovieIsInWishList = interimList.find((item) => item.id === movie.id);
+
+        if (ifMovieIsInWishList) {
+            this.setState(() => ({ isMovieInWishList: true }));
+        } else {
+            this.setState(() => ({ isMovieInWishList: false }));
+        }
+    }
+    _updateContentComponent () {
+        this.forceUpdate();
     }
     render () {
         const {
@@ -58,7 +73,7 @@ export default class Content extends Component {
         const modalWindowToShow = modalToShow
             ? (
                 <ModalWindow
-                    closeModalWindow = { this.closeModalWindow }
+                    closeModalWindow = { this.hideModal }
                     id = { movieInModalWindow.id }
                     imagePath = { imagePath }
                     isMovieInWishList = { isMovieInWishList }
@@ -66,6 +81,7 @@ export default class Content extends Component {
                     popularity = { movieInModalWindow.popularity }
                     release_date = { movieInModalWindow.release_date }
                     title = { movieInModalWindow.title }
+                    updateContentComponent = { this.updateContentComponent }
                     vote_average = { movieInModalWindow.vote_average }
                 />
             )
@@ -75,7 +91,7 @@ export default class Content extends Component {
 
         const wishListTrigger = wishList
             ? <WishList
-
+                updateContentComponent = { this.updateContentComponent }
                 wishList = { wishList }
             />
             : null;
